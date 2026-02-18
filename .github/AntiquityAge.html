@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civ 7 — Antiquity Age Tree Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+
+  :root {
+    --gold: #c9a227;
+    --gold-light: #e8c85a;
+    --gold-dark: #8a6a10;
+    --parchment: #f5ecd7;
+    --parchment-dark: #e8d4a8;
+    --stone: #2a2318;
+    --stone-mid: #3d3426;
+    --stone-light: #5a4f3c;
+    --tech-blue: #1a3a5c;
+    --tech-glow: #4a9eda;
+    --civic-purple: #3a1a5c;
+    --civic-glow: #9a6ada;
+    --mil-red: #5c1a1a;
+    --mil-glow: #da4a4a;
+    --econ-green: #1a4a2a;
+    --econ-glow: #4ada7a;
+    --cult-amber: #5c3a1a;
+    --cult-glow: #da9a4a;
+    --sci-teal: #1a4a4a;
+    --sci-glow: #4adada;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--stone);
+    color: var(--parchment);
+    font-family: 'Crimson Pro', serif;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(201,162,39,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(74,158,218,0.04) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 30 L30 0 L60 30 L30 60 Z' fill='none' stroke='%23c9a22710' stroke-width='1'/%3E%3C/svg%3E");
+  }
+
+  header {
+    text-align: center;
+    padding: 40px 20px 20px;
+    border-bottom: 2px solid var(--gold-dark);
+    background: linear-gradient(180deg, rgba(42,35,24,0.9) 0%, transparent 100%);
+    position: relative;
+  }
+
+  header::before {
+    content: '⚔';
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    color: var(--gold-dark);
+    opacity: 0.6;
+  }
+  header::after {
+    content: '🛡';
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    color: var(--gold-dark);
+    opacity: 0.6;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.6rem, 4vw, 3rem);
+    font-weight: 900;
+    color: var(--gold-light);
+    text-shadow: 0 0 30px rgba(201,162,39,0.4), 0 2px 4px rgba(0,0,0,0.8);
+    letter-spacing: 0.05em;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: var(--parchment-dark);
+    margin-top: 8px;
+    font-style: italic;
+    opacity: 0.8;
+  }
+
+  .tab-bar {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    padding: 20px 20px 0;
+    border-bottom: 1px solid var(--gold-dark);
+  }
+
+  .tab {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    padding: 12px 28px;
+    cursor: pointer;
+    border: 1px solid var(--gold-dark);
+    border-bottom: none;
+    background: var(--stone-mid);
+    color: var(--parchment-dark);
+    transition: all 0.2s;
+    position: relative;
+    top: 1px;
+  }
+
+  .tab:first-child { border-radius: 6px 0 0 0; }
+  .tab:last-child { border-radius: 0 6px 0 0; }
+
+  /* Victory sub-tabs */
+  .vtab-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .vtab {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.07em;
+    padding: 9px 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 1px solid;
+    transition: all 0.2s;
+    opacity: 0.55;
+  }
+
+  .vtab.mil { border-color: var(--mil-glow); color: #ffa0a0; background: rgba(92,26,26,0.25); }
+  .vtab.eco { border-color: var(--econ-glow); color: #a0ffb8; background: rgba(26,74,42,0.25); }
+  .vtab.sci { border-color: var(--sci-glow); color: #a0f0ff; background: rgba(26,74,74,0.25); }
+  .vtab.cul { border-color: var(--cult-glow); color: #ffce90; background: rgba(92,58,26,0.25); }
+
+  .vtab.active { opacity: 1; }
+  .vtab.mil.active { background: rgba(92,26,26,0.6); box-shadow: 0 0 14px rgba(218,74,74,0.3); }
+  .vtab.eco.active { background: rgba(26,74,42,0.6); box-shadow: 0 0 14px rgba(74,218,122,0.3); }
+  .vtab.sci.active { background: rgba(26,74,74,0.6); box-shadow: 0 0 14px rgba(74,218,218,0.3); }
+  .vtab.cul.active { background: rgba(92,58,26,0.6); box-shadow: 0 0 14px rgba(218,154,74,0.3); }
+
+  .vpanel { display: none; }
+  .vpanel.active { display: block; }
+
+  /* Timeline */
+  .timeline { position: relative; padding-left: 0; }
+
+  .phase {
+    margin-bottom: 28px;
+  }
+
+  .phase-header {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 6px 6px 0 0;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .phase-header .phase-turns {
+    font-size: 0.65rem;
+    opacity: 0.7;
+    font-style: italic;
+    font-family: 'Crimson Pro', serif;
+    margin-left: auto;
+  }
+
+  .mil .phase-header { background: rgba(92,26,26,0.5); color: #ffa0a0; border: 1px solid rgba(218,74,74,0.4); border-bottom: none; }
+  .eco .phase-header { background: rgba(26,74,42,0.5); color: #a0ffb8; border: 1px solid rgba(74,218,122,0.4); border-bottom: none; }
+  .sci .phase-header { background: rgba(26,74,74,0.5); color: #a0f0ff; border: 1px solid rgba(74,218,218,0.4); border-bottom: none; }
+  .cul .phase-header { background: rgba(92,58,26,0.5); color: #ffce90; border: 1px solid rgba(218,154,74,0.4); border-bottom: none; }
+
+  .phase-body {
+    border-radius: 0 0 8px 8px;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+
+  .mil .phase-body { background: rgba(92,26,26,0.12); border: 1px solid rgba(218,74,74,0.25); }
+  .eco .phase-body { background: rgba(26,74,42,0.12); border: 1px solid rgba(74,218,122,0.25); }
+  .sci .phase-body { background: rgba(26,74,74,0.12); border: 1px solid rgba(74,218,218,0.25); }
+  .cul .phase-body { background: rgba(92,58,26,0.12); border: 1px solid rgba(218,154,74,0.25); }
+
+  @media (max-width: 760px) {
+    .phase-body { grid-template-columns: 1fr; }
+  }
+
+  .action-col h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .action-item {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 9px;
+    font-size: 0.84rem;
+    color: var(--parchment-dark);
+    line-height: 1.45;
+    align-items: flex-start;
+  }
+
+  .action-icon {
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .action-item strong { color: var(--parchment); }
+  .action-item code {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .mil code { background: rgba(218,74,74,0.12); border: 1px solid rgba(218,74,74,0.35); color: #ffc0c0; }
+  .eco code { background: rgba(74,218,122,0.12); border: 1px solid rgba(74,218,122,0.35); color: #c0ffd0; }
+  .sci code { background: rgba(74,218,218,0.12); border: 1px solid rgba(74,218,218,0.35); color: #c0f8ff; }
+  .cul code { background: rgba(218,154,74,0.12); border: 1px solid rgba(218,154,74,0.35); color: #ffe4c0; }
+
+  .tip-box {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--parchment-dark);
+    line-height: 1.5;
+  }
+
+  .mil .tip-box { background: rgba(218,74,74,0.07); border-left: 3px solid rgba(218,74,74,0.5); }
+  .eco .tip-box { background: rgba(74,218,122,0.07); border-left: 3px solid rgba(74,218,122,0.5); }
+  .sci .tip-box { background: rgba(74,218,218,0.07); border-left: 3px solid rgba(74,218,218,0.5); }
+  .cul .tip-box { background: rgba(218,154,74,0.07); border-left: 3px solid rgba(218,154,74,0.5); }
+
+  .reward-box {
+    margin-top: 24px;
+    padding: 18px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.88rem;
+    color: var(--parchment-dark);
+  }
+
+  .mil .reward-box { background: rgba(218,74,74,0.1); border: 1px solid rgba(218,74,74,0.4); }
+  .eco .reward-box { background: rgba(74,218,122,0.1); border: 1px solid rgba(74,218,122,0.4); }
+  .sci .reward-box { background: rgba(74,218,218,0.1); border: 1px solid rgba(74,218,218,0.4); }
+  .cul .reward-box { background: rgba(218,154,74,0.1); border: 1px solid rgba(218,154,74,0.4); }
+
+  .reward-box .reward-icon { font-size: 2.2rem; flex-shrink: 0; }
+  .reward-box strong { color: var(--gold-light); display: block; font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.05em; margin-bottom: 4px; }
+
+  .milestone-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .milestone {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .mil .milestone { background: rgba(218,74,74,0.15); border: 1px solid rgba(218,74,74,0.4); color: #ffa0a0; }
+  .eco .milestone { background: rgba(74,218,122,0.15); border: 1px solid rgba(74,218,122,0.4); color: #a0ffb8; }
+  .sci .milestone { background: rgba(74,218,218,0.15); border: 1px solid rgba(74,218,218,0.4); color: #a0f0ff; }
+  .cul .milestone { background: rgba(218,154,74,0.15); border: 1px solid rgba(218,154,74,0.4); color: #ffce90; }
+
+  .tab:hover { background: rgba(201,162,39,0.12); color: var(--gold-light); }
+
+  .tab.active {
+    background: var(--stone);
+    color: var(--gold);
+    border-color: var(--gold-dark);
+    text-shadow: 0 0 10px rgba(201,162,39,0.3);
+  }
+
+  .panel { display: none; padding: 30px 20px 50px; }
+  .panel.active { display: block; }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 30px;
+    padding: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,162,39,0.2);
+    border-radius: 8px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--parchment-dark);
+  }
+
+  .legend-dot {
+    width: 14px; height: 14px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  /* TREE LAYOUT */
+  .tree-section {
+    margin-bottom: 40px;
+  }
+
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(201,162,39,0.2);
+  }
+
+  .tier-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tier-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--gold-dark);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    min-width: 24px;
+    padding: 6px 0;
+    text-align: center;
+    opacity: 0.7;
+  }
+
+  .nodes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .node {
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    min-width: 130px;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .node:hover { transform: translateY(-2px); }
+
+  .node .node-sub {
+    font-size: 0.68rem;
+    font-weight: 400;
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    opacity: 0.75;
+    display: block;
+    margin-top: 3px;
+  }
+
+  .node .node-tag {
+    position: absolute;
+    top: -6px;
+    right: 6px;
+    font-size: 0.55rem;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.1em;
+    padding: 1px 5px;
+    border-radius: 3px;
+    border: 1px solid;
+    text-transform: uppercase;
+  }
+
+  /* Tech node colors */
+  .n-tech {
+    background: rgba(26,58,92,0.7);
+    border-color: var(--tech-glow);
+    color: #c8e8ff;
+    box-shadow: 0 0 8px rgba(74,158,218,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .n-tech:hover { box-shadow: 0 0 16px rgba(74,158,218,0.4); border-color: #7ac4f0; }
+
+  /* Civic node colors */
+  .n-civic {
+    background: rgba(58,26,92,0.7);
+    border-color: var(--civic-glow);
+    color: #e0c8ff;
+    box-shadow: 0 0 8px rgba(154,106,218,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .n-civic:hover { box-shadow: 0 0 16px rgba(154,106,218,0.4); border-color: #c0a0f0; }
+
+  /* Victory path color tags */
+  .tag-mil { background: rgba(92,26,26,0.8); border-color: var(--mil-glow); color: #ffc8c8; }
+  .tag-eco { background: rgba(26,74,42,0.8); border-color: var(--econ-glow); color: #c8ffd8; }
+  .tag-sci { background: rgba(26,74,74,0.8); border-color: var(--sci-glow); color: #c8ffff; }
+  .tag-cul { background: rgba(92,58,26,0.8); border-color: var(--cult-glow); color: #ffe0c8; }
+
+  /* Arrows between tiers */
+  .arrow-row {
+    display: flex;
+    gap: 12px;
+    margin: 2px 0;
+    padding-left: 36px;
+  }
+
+  .arrow-block {
+    flex: 1;
+    min-width: 130px;
+    display: flex;
+    justify-content: center;
+    color: var(--gold-dark);
+    font-size: 1.2rem;
+    opacity: 0.5;
+  }
+
+  /* Tooltip popup */
+  .tooltip {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    background: var(--stone-mid);
+    border: 1px solid var(--gold-dark);
+    border-radius: 8px;
+    padding: 14px 18px;
+    max-width: 280px;
+    pointer-events: none;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  }
+
+  .tooltip.show { display: block; }
+
+  .tooltip h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+
+  .tooltip p {
+    font-size: 0.82rem;
+    color: var(--parchment-dark);
+    line-height: 1.5;
+  }
+
+  .tooltip .tt-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: 0.75rem;
+  }
+
+  .tt-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.05em;
+    font-size: 0.65rem;
+  }
+
+  /* legacy compat */
+
+  code {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    color: var(--gold-light);
+    background: rgba(201,162,39,0.08);
+    padding: 1px 5px;
+    border-radius: 3px;
+    border: 1px solid rgba(201,162,39,0.2);
+  }
+
+  .info-banner {
+    background: rgba(201,162,39,0.06);
+    border: 1px solid rgba(201,162,39,0.25);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    font-size: 0.85rem;
+    color: var(--parchment-dark);
+    line-height: 1.6;
+  }
+
+  .info-banner strong { color: var(--gold-light); }
+
+  @media (max-width: 600px) {
+    .tier-label { display: none; }
+    .node { min-width: 110px; font-size: 0.75rem; }
+    .tab { padding: 10px 14px; font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Civilization VII</h1>
+  <div class="subtitle">Antiquity Age — Technology &amp; Civics Flowchart Guide</div>
+</header>
+
+<div class="tab-bar">
+  <div class="tab active" onclick="showTab('tech',this)">🔬 Tech Tree</div>
+  <div class="tab" onclick="showTab('civics',this)">📜 Civics Tree</div>
+  <div class="tab" onclick="showTab('path-mil',this)">⚔️ Military Path</div>
+  <div class="tab" onclick="showTab('path-eco',this)">💰 Economic Path</div>
+  <div class="tab" onclick="showTab('path-sci',this)">🔭 Science Path</div>
+  <div class="tab" onclick="showTab('path-cul',this)">🎭 Culture Path</div>
+</div>
+
+<!-- =================== TECH TREE =================== -->
+<div id="tab-tech" class="panel active">
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#1a3a5c;border-color:#4a9eda;"></div> Technology Node</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(218,74,74,0.3);border-color:#da4a4a;"></div> Military Victory</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(74,218,122,0.3);border-color:#4ada7a;"></div> Economic Victory</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(74,218,218,0.3);border-color:#4adada;"></div> Science Victory</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(218,154,74,0.3);border-color:#da9a4a;"></div> Culture Victory</div>
+    <div class="legend-item" style="font-style:italic;opacity:0.6;">Hover nodes for details</div>
+  </div>
+
+  <div class="info-banner">
+    <strong>Starting Choice:</strong> You begin with <strong>Agriculture</strong> (auto-researched), then pick one of three Tier 1 starters. Your terrain guides this: pastures → <strong>Animal Husbandry</strong>, mines/clay → <strong>Pottery</strong>, coast/rivers → <strong>Sailing</strong>.
+  </div>
+
+  <div class="tree-section">
+    <div class="section-label">Tier 0 — Auto-Researched</div>
+    <div class="tier-row">
+      <div class="tier-label">T0</div>
+      <div class="nodes">
+        <div class="node n-tech" onmouseenter="showTip(event,'Agriculture','Auto-researched at game start. Unlocks Farm improvements. Essential foundation for all subsequent research.','—','All')" onmouseleave="hideTip()">
+          🌾 Agriculture
+          <span class="node-sub">Auto-unlocked · Farms</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <div class="tree-section">
+    <div class="section-label">Tier 1 — Starting Technologies (Pick One)</div>
+    <div class="tier-row">
+      <div class="tier-label">T1</div>
+      <div class="nodes">
+        <div class="node n-tech" onmouseenter="showTip(event,'Animal Husbandry','Unlocks Pastures and the Sawpit. Boosts food on pasture tiles. Great for woodland/grassland starts. Leads to Masonry and Irrigation.','Pastures, Sawpit, Slinger','Military, General')" onmouseleave="hideTip()">
+          🐄 Animal Husbandry
+          <span class="node-sub">Pastures · Sawpit · Slinger</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Pottery','Unlocks Brickyard. Core production booster for clay/mine starts. Leads to Masonry, Irrigation, and Writing — arguably the strongest Tier 1 pick.','Brickyard','All Paths')" onmouseleave="hideTip()">
+          🏺 Pottery
+          <span class="node-sub">Brickyard · Hub tech</span>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Sailing','Unlocks Fishing Boats and the Galley unit. Essential for coastal starts and naval exploration. Leads to Writing and Currency paths.','Fishing Boats, Galley, Harbor','Econ, Military')" onmouseleave="hideTip()">
+          ⛵ Sailing
+          <span class="node-sub">Galley · Fishing Boats</span>
+          <div class="node-tag tag-eco">ECO</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <div class="tree-section">
+    <div class="section-label">Tier 2 — Core Expansion</div>
+    <div class="tier-row">
+      <div class="tier-label">T2</div>
+      <div class="nodes">
+        <div class="node n-tech" onmouseenter="showTip(event,'Masonry','Requires Animal Husbandry or Pottery. Unlocks the Monument building (+Culture) and quarry improvements. Critical for culture generation and wonder building.','Monument, Quarry','Culture, General')" onmouseleave="hideTip()">
+          🧱 Masonry
+          <span class="node-sub">Monument · Quarry</span>
+          <div class="node-tag tag-cul">CUL</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Irrigation','Requires Pottery. Unlocks +1 Settlement capacity and the Hanging Gardens wonder. Leads to Bronze Working and The Wheel.','Hanging Gardens (Wonder), +1 Settlement','Military, General')" onmouseleave="hideTip()">
+          💧 Irrigation
+          <span class="node-sub">Hanging Gardens · +Settlement</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Writing','Requires Pottery or Sailing. Unlocks the Library building (+Science). Grants Research Initiative Project. Essential for Science Victory.','Library, Research Initiative','Science, Econ')" onmouseleave="hideTip()">
+          📚 Writing
+          <span class="node-sub">Library · Research Initiative</span>
+          <div class="node-tag tag-sci">SCI</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <div class="tree-section">
+    <div class="section-label">Tier 3 — Military &amp; Economic Branch</div>
+    <div class="tier-row">
+      <div class="tier-label">T3</div>
+      <div class="nodes">
+        <div class="node n-tech" onmouseenter="showTip(event,'Bronze Working','Requires Irrigation or Writing. Unlocks the Swordsman unit and Barracks. A must for military domination strategies.','Swordsman, Barracks','Military')" onmouseleave="hideTip()">
+          ⚔️ Bronze Working
+          <span class="node-sub">Swordsman · Barracks</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'The Wheel','Requires Irrigation. Unlocks Catapult siege units and the Chariot. Critical for conquering fortified enemies.','Catapult, Chariot','Military')" onmouseleave="hideTip()">
+          ☸️ The Wheel
+          <span class="node-sub">Catapult · Chariot</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Currency','Requires Writing or Sailing. Unlocks Specialist slots and the Market. Enables strong economic infrastructure and specialist workers.','Market, Specialist Slots','Economic, Science')" onmouseleave="hideTip()">
+          💰 Currency
+          <span class="node-sub">Market · Specialists</span>
+          <div class="node-tag tag-eco">ECO</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <div class="tree-section">
+    <div class="section-label">Tier 4 — Advanced Technologies</div>
+    <div class="tier-row">
+      <div class="tier-label">T4</div>
+      <div class="nodes">
+        <div class="node n-tech" onmouseenter="showTip(event,'Iron Working','Requires Bronze Working. Unlocks the Legionary unit — strongest melee unit of the Antiquity Age.','Legionary, Iron Mine','Military')" onmouseleave="hideTip()">
+          🗡️ Iron Working
+          <span class="node-sub">Legionary · Iron Mine</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Mathematics','Requires Currency or Writing. Unlocks the Aqueduct building and boosts science yields significantly.','Aqueduct, Science Boost','Science')" onmouseleave="hideTip()">
+          📐 Mathematics
+          <span class="node-sub">Aqueduct · Science yields</span>
+          <div class="node-tag tag-sci">SCI</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Construction','Requires Masonry or Irrigation. Unlocks advanced building improvements including the Colosseum wonder.','Colosseum, Advanced Buildings','Culture, Military')" onmouseleave="hideTip()">
+          🏛️ Construction
+          <span class="node-sub">Colosseum · Buildings</span>
+          <div class="node-tag tag-cul">CUL</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Navigation','Requires Sailing + Currency. Unlocks Quadriremes — powerful Antiquity naval units. Mastery grants +3 Combat Strength for all naval units + a Codex.','Quadrireme, Naval Mastery Codex','Military, Science')" onmouseleave="hideTip()">
+          🧭 Navigation
+          <span class="node-sub">Quadrireme · Naval Codex</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <div class="tree-section">
+    <div class="section-label">Tier 5 — Late Antiquity Technologies</div>
+    <div class="tier-row">
+      <div class="tier-label">T5</div>
+      <div class="nodes">
+        <div class="node n-tech" onmouseenter="showTip(event,'Engineering','Requires Construction + Iron Working or Mathematics. Enables advanced infrastructure and siege weapon improvements.','Siege Upgrades, Infrastructure','Military')" onmouseleave="hideTip()">
+          ⚙️ Engineering
+          <span class="node-sub">Siege upgrades · Infrastructure</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Philosophy','Requires Mathematics. Unlocks the Academy improvement and advanced science buildings. Great for codex collection.','Academy, Science Buildings','Science')" onmouseleave="hideTip()">
+          🦉 Philosophy
+          <span class="node-sub">Academy · Codex bonuses</span>
+          <div class="node-tag tag-sci">SCI</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Drama & Poetry','Requires Construction. Unlocks the Theater and culture-boosting buildings. Key for cultural victory wonder rush.','Theater, Culture Buildings','Culture')" onmouseleave="hideTip()">
+          🎭 Drama & Poetry
+          <span class="node-sub">Theater · Culture buildings</span>
+          <div class="node-tag tag-cul">CUL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div></div>
+
+  <div class="tree-section">
+    <div class="section-label">Tier 6 — Future Tech (End of Age)</div>
+    <div class="tier-row">
+      <div class="tier-label">T6</div>
+      <div class="nodes">
+        <div class="node n-tech" style="border-color:var(--gold);background:rgba(201,162,39,0.12);color:var(--gold-light);" onmouseenter="showTip(event,'Future Tech','The final technology of the Antiquity Age. Requires completing most of the tech tree. Researching it advances the Age timer by 10, grants a Wildcard Attribute Point, and provides a head-start boost on a technology in the next age.','Wildcard Attribute Point, Age Boost','All — End of Age')" onmouseleave="hideTip()">
+          ✨ Future Tech
+          <span class="node-sub">Age boost · Wildcard point</span>
+          <div class="node-tag" style="background:rgba(201,162,39,0.2);border-color:var(--gold);color:var(--gold-light);">END AGE</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== CIVICS TREE =================== -->
+<div id="tab-civics" class="panel">
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#3a1a5c;border-color:#9a6ada;"></div> Civic Node</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(218,74,74,0.3);border-color:#da4a4a;"></div> Military</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(74,218,122,0.3);border-color:#4ada7a;"></div> Economic</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(74,218,218,0.3);border-color:#4adada;"></div> Science</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(218,154,74,0.3);border-color:#da9a4a;"></div> Culture</div>
+    <div class="legend-item" style="font-style:italic;opacity:0.6;">Hover nodes for details</div>
+  </div>
+
+  <div class="info-banner">
+    <strong>Civics use Culture (not Science).</strong> Your first choices open the full tree. <strong>Chiefdom</strong> is always researched first. Then choose between <strong>Mysticism</strong> and <strong>Discipline</strong> — both are usually worth pursuing early. Unique civilization civics run in parallel (3–4 nodes each).
+  </div>
+
+  <div class="tree-section">
+    <div class="section-label">Tier 1 — First Civic (Always First)</div>
+    <div class="tier-row">
+      <div class="tier-label">T1</div>
+      <div class="nodes">
+        <div class="node n-civic" onmouseenter="showTip(event,'Chiefdom','Always your first civic. Unlocks Charismatic Leader and Tool Making social policies. Opens the entire civic tree. Essential starting point.','Charismatic Leader, Tool Making Policies','All')" onmouseleave="hideTip()">
+          👑 Chiefdom
+          <span class="node-sub">Always first · Policy slots</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <div class="tree-section">
+    <div class="section-label">Tier 2 — Branch Split (Both are important!)</div>
+    <div class="tier-row">
+      <div class="tier-label">T2</div>
+      <div class="nodes">
+        <div class="node n-civic" onmouseenter="showTip(event,'Mysticism','Requires Chiefdom. HIGHEST PRIORITY. Unlocks Pantheon founding (choose a bonus for your civ!), Altar building, and Priesthood policy. Leads to Code of Laws.','Pantheon, Altar, Priesthood Policy','Culture, All')" onmouseleave="hideTip()">
+          🔮 Mysticism
+          <span class="node-sub">Pantheon · Altar · Priesthood</span>
+          <div class="node-tag tag-cul">PRIORITY</div>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Discipline','Requires Chiefdom. Unlocks your Army Commander unit — the most important unit in the game. Persists and grows across all Ages. Also unlocks Survey policy and Dur-Sharrukin wonder.','Army Commander, Survey Policy, Dur-Sharrukin','Military')" onmouseleave="hideTip()">
+          🪖 Discipline
+          <span class="node-sub">Army Commander · Survey Policy</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <div class="tree-section">
+    <div class="section-label">Tier 3 — Core Mid-Game Civics</div>
+    <div class="tier-row">
+      <div class="tier-label">T3</div>
+      <div class="nodes">
+        <div class="node n-civic" onmouseenter="showTip(event,'Code of Laws','Requires Mysticism + Discipline. ESSENTIAL for all strategies. Grants a free Merchant unit, enables Merchant production, unlocks trade routes, and the Petra wonder.','Free Merchant, Petra, Oratory Policy','Economic, All')" onmouseleave="hideTip()">
+          ⚖️ Code of Laws
+          <span class="node-sub">Free Merchant · Petra · Trades</span>
+          <div class="node-tag tag-eco">ECO</div>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Tactics','Requires Discipline. Enhances military unit effectiveness. Unlocks the Terracotta Army wonder and improved combat policies.','Terracotta Army, Combat Bonus Policies','Military')" onmouseleave="hideTip()">
+          ⚔️ Tactics
+          <span class="node-sub">Terracotta Army · Combat boost</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Citizenship','Requires Mysticism or Code of Laws. Unlocks Cultural Festival project and Drama & Poetry policy (+50% Culture building production). Key for Cultural Victory wonder rush.','Cultural Festival, Drama & Poetry Policy','Culture')" onmouseleave="hideTip()">
+          🏛️ Citizenship
+          <span class="node-sub">Cultural Festival · Drama Policy</span>
+          <div class="node-tag tag-cul">CUL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <div class="tree-section">
+    <div class="section-label">Tier 4 — Specialized Civics</div>
+    <div class="tier-row">
+      <div class="tier-label">T4</div>
+      <div class="nodes">
+        <div class="node n-civic" onmouseenter="showTip(event,'Literacy','Requires Code of Laws. Grants your first Codex — gives +2 Science per Codex. Critical for the Scientific Legacy Path. Research Mastery for additional Codex bonuses.','Codex (+2 Science), Science Buildings','Science')" onmouseleave="hideTip()">
+          📖 Literacy
+          <span class="node-sub">Codex · +2 Science bonus</span>
+          <div class="node-tag tag-sci">SCI</div>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Organized Military','Requires Tactics. Increases settlement limit further. Unlocks professional military policies and advanced troop management.','Settlement Limit, Military Policies','Military')" onmouseleave="hideTip()">
+          🛡️ Organized Military
+          <span class="node-sub">Settlement limit · Troop policies</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Patronage','Requires Citizenship. Unlocks the Amphitheater building. Enables wonder construction endeavors. Mastery unlocks Wonder Construction Endeavor — excellent for the Cultural Legacy Path.','Amphitheater, Wonder Endeavor','Culture')" onmouseleave="hideTip()">
+          🎨 Patronage
+          <span class="node-sub">Amphitheater · Wonder Endeavor</span>
+          <div class="node-tag tag-cul">CUL</div>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Public Life','Requires Code of Laws. Unlocks City Guard policy (+3 Combat Strength for fortified districts). Excellent defensive civic, especially when surrounded by hostile civs.','City Guard Policy, Fortification Bonus','Military, General')" onmouseleave="hideTip()">
+          🏙️ Public Life
+          <span class="node-sub">City Guard · Fortification</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <div class="tree-section">
+    <div class="section-label">Tier 5 — Late Antiquity Civics</div>
+    <div class="tier-row">
+      <div class="tier-label">T5</div>
+      <div class="nodes">
+        <div class="node n-civic" onmouseenter="showTip(event,'Skilled Trades','Late Antiquity. Unlocks Coinage policy (+1 Gold per imported resource). Imperative for Economic Legacy Path — helps buy more merchants to slot more resources.','Coinage Policy, Gold per Resource','Economic')" onmouseleave="hideTip()">
+          🔨 Skilled Trades
+          <span class="node-sub">Coinage Policy · +Gold/resource</span>
+          <div class="node-tag tag-eco">ECO</div>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Philosophy','Requires Literacy. Unlocks advanced science-focused policies and buildings. Key stepping stone toward completing the Scientific Legacy path with codex bonuses.','Science Policies, Advanced Buildings','Science')" onmouseleave="hideTip()">
+          🦉 Philosophy
+          <span class="node-sub">Science policies · Codex chain</span>
+          <div class="node-tag tag-sci">SCI</div>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Games & Recreation','Requires Patronage. Unlocks happiness and cultural buildings. Helps sustain large empires and provides culture bonuses for ongoing wonder competition.','Happiness Buildings, Culture Bonuses','Culture')" onmouseleave="hideTip()">
+          🎮 Games & Recreation
+          <span class="node-sub">Happiness · Culture bonuses</span>
+          <div class="node-tag tag-cul">CUL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div></div>
+
+  <div class="tree-section">
+    <div class="section-label">Tier 6 — Mastery Branches + End Goal</div>
+    <div class="tier-row">
+      <div class="tier-label">T6</div>
+      <div class="nodes">
+        <div class="node n-civic" style="border-color:var(--gold);background:rgba(201,162,39,0.12);color:var(--gold-light);" onmouseenter="showTip(event,'Future Civic','The final civic of the Antiquity Age. Requires nearly all prior civics. Grants bonuses for the Exploration Age start. Advances age timer by 10 and provides a culture head-start boost.','Age Transition Bonus, Culture Boost','All — End of Age')" onmouseleave="hideTip()">
+          ✨ Future Civic
+          <span class="node-sub">Age bonus · Culture boost</span>
+          <div class="node-tag" style="background:rgba(201,162,39,0.2);border-color:var(--gold);color:var(--gold-light);">END AGE</div>
+        </div>
+        <div class="node n-civic" style="opacity:0.7;" onmouseenter="showTip(event,'Mastery Upgrades','Every civic can be mastered (researchable a second time at ~80% original cost). Masteries unlock additional policies, buildings, and sometimes Codices. Prioritize masteries for your chosen victory path.','Additional Policies, Buildings, Codices','Situational')" onmouseleave="hideTip()">
+          🔄 Masteries
+          <span class="node-sub">Each civic × 80% cost again</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tree-section" style="margin-top:30px;">
+    <div class="section-label">Unique Civilization Civics (Run in Parallel)</div>
+    <div class="info-banner" style="margin-bottom:16px;">
+      Each Antiquity civilization has <strong>3–4 unique civics</strong> running parallel to the main tree. They unlock that civ's Wonder (available earlier!), unique improvements, and Tradition social policies that persist across all Ages. Research them alongside the main tree when your culture allows.
+    </div>
+    <div class="tier-row">
+      <div class="tier-label">UNQ</div>
+      <div class="nodes">
+        <div class="node n-civic" style="border-style:dashed;opacity:0.85;" onmouseenter="showTip(event,'Civ Unique Civic I','First unique civic. Unlocks your civilization's unique improvement or building.','Unique Improvement / Building','Civ-Specific')" onmouseleave="hideTip()">
+          ⭐ Unique Civic I
+          <span class="node-sub">Civ improvement · Early wonder</span>
+        </div>
+        <div class="node n-civic" style="border-style:dashed;opacity:0.85;" onmouseenter="showTip(event,'Civ Unique Civic II','Second unique civic. Often unlocks the civilization\'s associated Wonder (with a production bonus) and Traditions.','Civ Wonder, Traditions','Civ-Specific')" onmouseleave="hideTip()">
+          ⭐ Unique Civic II
+          <span class="node-sub">Civ wonder · Traditions</span>
+        </div>
+        <div class="node n-civic" style="border-style:dashed;opacity:0.85;" onmouseenter="showTip(event,'Civ Unique Civic III','Third unique civic. Often the strongest tradition unlock for your civilization, providing persistent bonuses across Ages.','Strongest Tradition, Ageless Bonuses','Civ-Specific')" onmouseleave="hideTip()">
+          ⭐ Unique Civic III
+          <span class="node-sub">Strongest tradition · Ageless</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== MILITARY PATH =================== -->
+<div id="tab-path-mil" class="panel mil">
+
+  <div style="margin-bottom:20px;">
+    <h2 style="font-family:'Cinzel',serif;font-size:1.4rem;color:#ffa0a0;margin-bottom:6px;">⚔️ Military Legacy Path</h2>
+    <p style="color:var(--parchment-dark);font-size:0.9rem;line-height:1.6;">Conquer and hold settlements. <strong style="color:#ffa0a0;">Each city you own at end of Age = 1 point. Each city CONQUERED = 2 points.</strong> You need 12 points total. Target: own ~6 cities and conquer 3 more.</p>
+  </div>
+
+  <div class="milestone-bar mil">
+    <div class="milestone">🏳 Start: 4000 BCE</div>
+    <div class="milestone">🪖 Goal: 12 Settlement Points</div>
+    <div class="milestone">⚔ Conquered = 2 pts each</div>
+    <div class="milestone">🏠 Owned = 1 pt each</div>
+    <div class="milestone">🏆 Reward: Bonus units per conquest</div>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase mil">
+    <div class="phase-header">Phase 1 — Foundation <span class="phase-turns">Turns 1–15 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research (Science)</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Start:</strong> <code>Animal Husbandry</code> — unlocks Pastures and Slinger unit. Great on grassland/woods starts.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Then <code>Masonry</code> — enables Monument (+Culture) to speed up civics.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Next <code>Irrigation</code> — key prereq for Bronze Working and gives +1 Settlement capacity.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Research (Culture)</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>First civic:</strong> <code>Chiefdom</code> — always first, opens the tree.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><strong>IMMEDIATELY</strong> research <code>Discipline</code> — unlocks your Army Commander. This unit is ageless and persists forever. Do not delay this.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Run <strong>Survey</strong> social policy from Discipline to generate map/scout bonuses.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Capital City Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div>Build a <strong>Scout</strong> — explore early, find city-state Independents to target.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Build <strong>Monument</strong> (needs Masonry) — +2 Culture, speeds civics dramatically.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Produce a <strong>Slinger</strong> or <strong>Warrior</strong> for early defense and exploring.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Work high-Production tiles (hills, forests). Avoid building Farms unless food-starved.</div></div>
+      </div>
+    </div>
+    <div class="tip-box mil">💡 <strong>Turn 1 priority:</strong> Scout → Monument → Army Commander unit. Your Commander needs XP — send them with your warrior immediately to fight any Barbarians near your capital.</div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase mil">
+    <div class="phase-header">Phase 2 — First Expansion <span class="phase-turns">Turns 15–35 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div><code>Bronze Working</code> (needs Irrigation) — unlocks Swordsman and Barracks. Start building Swordsmen now.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div><code>The Wheel</code> — unlocks Catapult siege units. Essential for taking walled cities and fortified Independents.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div><code>Mysticism</code> — found a Pantheon. Pick <strong>God of War</strong> (+combat strength near your capital) or <strong>God of the Open Sky</strong> (+Culture on pastures).</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div><code>Tactics</code> — boosts unit effectiveness and unlocks the Terracotta Army wonder.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div>Keep running <strong>Charismatic Leader</strong> policy for free influence at city-states — bribe them or attack them for easy settlement points.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Capital:</strong> Build a <strong>Barracks</strong> (needs Bronze Working) — gives your units +1 Combat Strength and XP.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Pump out 2–3 <strong>Swordsmen</strong> from capital. These are your main conquest units early on.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Found your <strong>2nd city</strong> on a defensible location, ideally near an Independent Power you plan to conquer.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div><strong>2nd city:</strong> Monument first, then Barracks to train military units faster.</div></div>
+      </div>
+    </div>
+    <div class="tip-box mil">💡 Independents (city-states) count as 2 settlement points when conquered. Find 3–4 nearby and plan your attack order. Use your Commander's bonuses — they should already be promoted by now.</div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase mil">
+    <div class="phase-header">Phase 3 — Conquest & Siege <span class="phase-turns">Turns 35–60 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">6.</span><div><code>Iron Working</code> (needs Bronze Working) — unlocks the <strong>Legionary</strong>, the strongest melee unit in the Antiquity Age. Build these in every city ASAP.</div></div>
+        <div class="action-item"><span class="action-icon">7.</span><div><code>Navigation</code> (Sailing + Currency) if on coast — Quadrireme naval conquest is a strong second front.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div><code>Code of Laws</code> — get your free Merchant. Use them for Gold income to fund more troops.</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div><code>Organized Military</code> — increases settlement cap, lets you hold more conquered cities.</div></div>
+        <div class="action-item"><span class="action-icon">9.</span><div>Enable <strong>Military Policy</strong> slots — equip Siege Traditions or Combat-focused policies from Tactics mastery.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Capital:</strong> Build a <strong>Catapult</strong> — your siege engine. One per army stack is ideal.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>All cities: <strong>Legionaries</strong> on repeat. Legionaries + 1 Catapult can take any Independent city.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div><strong>Conquered cities:</strong> Immediately build a Barracks so you can produce units locally for the next push.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Optionally build <strong>Walls</strong> in frontier cities to hold against AI counterattacks.</div></div>
+      </div>
+    </div>
+    <div class="tip-box mil">💡 Stack Legionaries in a 3–4 unit group with 1 Catapult. Bombard city walls with Catapult, attack with Legionaries. Your Army Commander should be positioned to give adjacency Combat bonuses (+3 to nearby units).</div>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase mil">
+    <div class="phase-header">Phase 4 — Consolidation & Age End <span class="phase-turns">Turns 60–90 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">8.</span><div><code>Engineering</code> — siege weapon upgrades. Your Catapults become more powerful, useful for tough walled cities.</div></div>
+        <div class="action-item"><span class="action-icon">9.</span><div><code>Future Tech</code> — research last. Pushes age timer forward by 10 and gives a Wildcard Attribute Point.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">10.</span><div>Research your <strong>Civilization Unique Civics</strong> now if not done — unlock your civ's Wonder for extra Culture/Production.</div></div>
+        <div class="action-item"><span class="action-icon">11.</span><div><code>Future Civic</code> last — use leftover Culture here.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div>Secure your 12 points. Count: each held city = 1pt, each conquered = 2pt. You need 12 total.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Build <strong>Markets</strong> in all cities (needs Currency) — gold helps buy units quickly when war calls.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>If time allows, build <strong>Terracotta Army</strong> wonder — duplicates units, huge mid-game power spike.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Keep building Legionaries until you hit your settlement point target.</div></div>
+      </div>
+    </div>
+    <div class="tip-box mil">💡 Don't wait to conquer — the Age ends when someone finishes both Future Tech and Future Civic. Keep pressure on neighboring civs and Independents throughout.</div>
+  </div>
+
+  <div class="reward-box mil">
+    <div class="reward-icon">🏆</div>
+    <div><strong>Golden Age Reward: Military</strong> For every settlement conquered during the Antiquity Age, you receive a bonus military unit at the start of the Exploration Age — letting you enter the next era already on a war footing.</div>
+  </div>
+</div>
+
+<!-- =================== ECONOMIC PATH =================== -->
+<div id="tab-path-eco" class="panel eco">
+
+  <div style="margin-bottom:20px;">
+    <h2 style="font-family:'Cinzel',serif;font-size:1.4rem;color:#a0ffb8;margin-bottom:6px;">💰 Economic Legacy Path</h2>
+    <p style="color:var(--parchment-dark);font-size:0.9rem;line-height:1.6;">Slot resources into buildings to accumulate Legacy Points. <strong style="color:#a0ffb8;">Goal: 20 Resources Slotted.</strong> Merchants collect resources on Trade Routes; slot them into Markets, Harbors, Sawpits, and Brickyards.</p>
+  </div>
+
+  <div class="milestone-bar eco">
+    <div class="milestone">🏳 Start: 4000 BCE</div>
+    <div class="milestone">📦 Goal: 20 Resources Slotted</div>
+    <div class="milestone">🧑‍💼 Merchant = trade route</div>
+    <div class="milestone">🏪 Market = 2 resource slots</div>
+    <div class="milestone">🏆 Reward: Keep cities as cities</div>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase eco">
+    <div class="phase-header">Phase 1 — Foundation <span class="phase-turns">Turns 1–15 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Start:</strong> <code>Sailing</code> (if coastal) or <code>Pottery</code> (inland) — both lead to Writing and Currency, your core economic techs.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>If Pottery: also grab <code>Animal Husbandry</code> for Sawpit — Sawpits have resource slots too.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Rush toward <code>Writing</code> next — Library gives science to speed your whole research chain.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><code>Chiefdom</code> — always first.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><code>Mysticism</code> — HIGHEST PRIORITY. Found a Pantheon. Choose <strong>God of the Sea</strong> (+Production for Harbors) or <strong>Goddess of the Hunt</strong> (+Food/Production for camps and improvements).</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div><code>Discipline</code> — still needed for Army Commander. Do this 3rd.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Capital Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div>Build <strong>Brickyard</strong> (needs Pottery) — has 2 resource slots AND boosts production. A top-tier early building.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Or build <strong>Sawpit</strong> (needs Animal Husbandry) — also has resource slots.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Build <strong>Monument</strong> after your production building — culture speeds up Code of Laws.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Work tiles with <strong>bonus resources</strong> (deer, cattle, fish, stone) — these will be slotted into buildings soon.</div></div>
+      </div>
+    </div>
+    <div class="tip-box eco">💡 Resources on your tiles are automatically collected when improved (e.g., Pasture on Cattle). You need to SLOT them into buildings like Market and Harbor. Plan your city locations near diverse resources.</div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase eco">
+    <div class="phase-header">Phase 2 — Trade Network Setup <span class="phase-turns">Turns 15–35 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div><code>Currency</code> (needs Writing or Sailing) — unlocks the <strong>Market</strong> building (2 resource slots) and the Merchant unit. This is your #1 priority tech.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div><code>Navigation</code> if coastal — Harbors (3 resource slots!) plus the Quadrireme.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div><code>Mathematics</code> — Aqueduct boosts city population = more tile workers = more resources improved.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div><code>Code of Laws</code> — gives a <strong>FREE Merchant unit</strong>. This is one of the best bonuses in the game for Economic path. Prioritize this immediately.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div>Apply the <strong>Oratory</strong> social policy from Code of Laws — gives +1 Gold per Merchant trade route.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div><code>Public Life</code> — City Guard policy defends your trade cities from raiders.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Capital:</strong> Build <strong>Market</strong> immediately when Currency is researched — 2 resource slots. Slot your best resources here.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>If coastal: Build <strong>Harbor</strong> — 3 slots and trade route capacity. Even better than Market.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Build a <strong>2nd Merchant</strong> unit via production — you need multiple merchants running trade routes simultaneously.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Found <strong>2nd city</strong> near different resources than your capital (wheat + fish + stone = different resource types to slot).</div></div>
+      </div>
+    </div>
+    <div class="tip-box eco">💡 Send Merchants to trade with EVERY civilization and city-state you meet. Each trade route collects a resource from the destination. The more diverse your trading partners, the more unique resources you can slot.</div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase eco">
+    <div class="phase-header">Phase 3 — Resource Accumulation <span class="phase-turns">Turns 35–60 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div><code>Irrigation</code> → <code>Construction</code> — build Aqueducts in all cities to grow population and work more tiles (more resources improved).</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div>Mastery of <code>Currency</code> — unlocks extra Specialist slots for your Merchants to slot more resources.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div><code>Skilled Trades</code> — unlocks the <strong>Coinage Policy</strong>: +1 Gold per imported resource per turn. With 15+ resources slotted, this becomes a massive income.</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div><code>Citizenship</code> — Cultural Festival project gives a burst of Culture to speed up your remaining civics.</div></div>
+        <div class="action-item"><span class="action-icon">9.</span><div>Always have the <strong>Coinage</strong> policy active from Skilled Trades mastery.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div>Build <strong>Market</strong> in every city — your primary resource-slotting buildings.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><strong>Slot resources actively</strong> — open each city, go to the Market/Harbor, and manually drag resources into slots.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Build <strong>Aqueducts</strong> in growing cities to increase population and improve more tiles.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Found a <strong>3rd city</strong> if your settlement cap allows — near a coastal resource cluster if possible (Harbor = 3 slots).</div></div>
+      </div>
+    </div>
+    <div class="tip-box eco">💡 Count your slots constantly: Brickyard = 2, Sawpit = 2, Market = 2, Harbor = 3. With 4 cities each having a Market + Harbor, you have 20 slots easily. The hard part is having 20 different resources to fill them!</div>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase eco">
+    <div class="phase-header">Phase 4 — Final Push to 20 Resources <span class="phase-turns">Turns 60–90 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">9.</span><div>Clean up remaining techs. <code>Future Tech</code> last — gives Wildcard Attribute Point for the Exploration Age.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">10.</span><div>Research any remaining unique civics for your civilization.</div></div>
+        <div class="action-item"><span class="action-icon">11.</span><div><code>Future Civic</code> to finalize the age transition bonus.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Final Checklist</h4>
+        <div class="action-item"><span class="action-icon">✓</span><div>Check: do you have 20 resources slotted? Open every city and verify Markets/Harbors are full.</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>If short, send more Merchants on routes to cities with resources you don't have yet.</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Build <strong>Petra</strong> wonder (unlocked by Code of Laws) if you have desert tiles — massive Gold bonus.</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Maintain diplomatic relations — peaceful trading partners = more resource types accessible.</div></div>
+      </div>
+    </div>
+    <div class="tip-box eco">💡 If you're stuck at 17–18 resources, check if you have Luxury resources (silk, dyes, spices) that require improvements you haven't built yet. Merchants also bring exotic resources from trade — keep routes active!</div>
+  </div>
+
+  <div class="reward-box eco">
+    <div class="reward-icon">🏆</div>
+    <div><strong>Golden Age Reward: Economic</strong> In the Exploration Age, your settlements are designated as Cities by default (instead of being converted to Towns). This is enormously powerful — it lets you preserve your full empire for the next Age.</div>
+  </div>
+</div>
+
+<!-- =================== SCIENCE PATH =================== -->
+<div id="tab-path-sci" class="panel sci">
+
+  <div style="margin-bottom:20px;">
+    <h2 style="font-family:'Cinzel',serif;font-size:1.4rem;color:#a0f0ff;margin-bottom:6px;">🔭 Science Legacy Path</h2>
+    <p style="color:var(--parchment-dark);font-size:0.9rem;line-height:1.6;">Accumulate Codices — special scrolls earned through tech research, civic masteries, and city-state alliances. <strong style="color:#a0f0ff;">Each Codex gives +2 Science per turn</strong>, compounding into a massive advantage.</p>
+  </div>
+
+  <div class="milestone-bar sci">
+    <div class="milestone">🏳 Start: 4000 BCE</div>
+    <div class="milestone">📜 Goal: Max Codex Count</div>
+    <div class="milestone">📖 Each Codex = +2 Science/turn</div>
+    <div class="milestone">🏛 Library = Research Initiative</div>
+    <div class="milestone">🏆 Reward: Research bonuses in Exploration</div>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase sci">
+    <div class="phase-header">Phase 1 — Foundation <span class="phase-turns">Turns 1–15 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Start:</strong> <code>Pottery</code> — leads to Writing fast. Core economic/science hub tech.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Immediately research <code>Writing</code> — unlocks the Library building (+Science) and Research Initiative project. Do not delay.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Also pick up <code>Sailing</code> if coastal — leads to Currency faster.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><code>Chiefdom</code> — always first.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><code>Mysticism</code> — found Pantheon. Pick <strong>Goddess of Wisdom</strong> (+Science for Libraries) or any science-adjacent option your terrain supports.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div><code>Discipline</code> — 3rd. Army Commander is still essential even for science builds (protect your cities!).</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Capital Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div>Build <strong>Library</strong> as your VERY FIRST building after Writing is researched. Every turn it produces science compounds over the entire age.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Run <strong>Research Initiative</strong> project in the Library immediately — generates a burst of Science and can yield a Codex.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Build a <strong>Monument</strong> second — Culture for civics is still necessary.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Work your highest-Science tiles (coast tiles with Fishing Boats give both Food and Production).</div></div>
+      </div>
+    </div>
+    <div class="tip-box sci">💡 The Library must come first. A Library built on Turn 5 vs Turn 20 is a massive difference — those 15 turns of compounding science output change your entire research speed for the Age.</div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase sci">
+    <div class="phase-header">Phase 2 — Science Infrastructure <span class="phase-turns">Turns 15–35 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div><code>Currency</code> (from Writing/Sailing) — Specialist slots. Assign Specialists to Library-adjacent buildings for extra science.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div><code>Mathematics</code> (from Currency or Writing) — Aqueduct building. More population = more tile workers = more Science tiles worked.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div>Mastery <code>Writing</code> — research it a second time at 80% cost. This often yields a Codex directly!</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div><code>Code of Laws</code> — free Merchant gives Gold income to buy buildings with Gold.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div><code>Literacy</code> — your FIRST CODEX unlock. +2 Science/turn from this civic alone. Research immediately after Code of Laws.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div>Mastery <code>Literacy</code> — often grants a second Codex. Research the mastery after the base civic.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Capital:</strong> Build <strong>Aqueduct</strong> (needs Mathematics) — grows population, lets you work more tiles including science tiles.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Found <strong>2nd city</strong> — immediately build Library there too. Two Libraries doubles your Research Initiative output.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Run Research Initiative project in BOTH cities' Libraries simultaneously to maximize Codex opportunities.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Befriend <strong>Science city-states</strong> (Independents labeled with science bonuses) — they sometimes gift Codices for reaching suzerain status.</div></div>
+      </div>
+    </div>
+    <div class="tip-box sci">💡 Every Codex stacks. With 5 Codices at +2 Science each = +10 Science/turn bonus on top of your base. Aim for 6–8 Codices by end of Age. Research ALL tech masteries — they frequently contain Codex rewards.</div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase sci">
+    <div class="phase-header">Phase 3 — Codex Accumulation <span class="phase-turns">Turns 35–60 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div><code>Philosophy</code> (from Mathematics) — Academy improvement. Place Academies on high-yield tiles for extra science. Mastery often gives Codex.</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div>Research <strong>ALL mastery techs</strong> — go back and master previously researched techs. Animal Husbandry Mastery, Pottery Mastery, etc. all have a chance to grant Codices.</div></div>
+        <div class="action-item"><span class="action-icon">9.</span><div><code>Navigation</code> if possible — Naval Mastery codex is one of the most reliable Codex sources in the Antiquity Age.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div><code>Philosophy</code> (civic) — advanced science policies. Enables stacking science policy slots.</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div>Research your <strong>Civilization's Unique Civics</strong> — many grant Tradition bonuses that include science output boosts.</div></div>
+        <div class="action-item"><span class="action-icon">9.</span><div>Master any civics that you completed early — Mysticism Mastery and Literacy Mastery both can yield Codices.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>All cities:</strong> Library → Aqueduct → Market (for gold to purchase remaining buildings).</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Build <strong>Academy</strong> improvements (needs Philosophy tech) on hills or high-value tiles near your cities.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Build <strong>3rd city</strong> if possible — more Libraries = more Research Initiative projects = more Codex opportunities.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Keep running Research Initiative projects in every city that has a Library. Never let them sit idle.</div></div>
+      </div>
+    </div>
+    <div class="tip-box sci">💡 The Navigation Tech Mastery is a hidden gem — it grants a Codex directly. If you're coastal, always research Navigation and its mastery. Combined with Literacy + Literacy Mastery, that's 3 guaranteed Codices from just those two paths.</div>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase sci">
+    <div class="phase-header">Phase 4 — Age-End Optimization <span class="phase-turns">Turns 60–90 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">10.</span><div>Sweep up all remaining tech masteries — every one you haven't done is a potential Codex.</div></div>
+        <div class="action-item"><span class="action-icon">11.</span><div><code>Future Tech</code> last — grants a Wildcard Attribute Point for the Exploration Age start.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">10.</span><div>Master remaining civics for bonus policies and possible Codex drops.</div></div>
+        <div class="action-item"><span class="action-icon">11.</span><div><code>Future Civic</code> — age transition culture bonus.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Final Checklist</h4>
+        <div class="action-item"><span class="action-icon">✓</span><div>Count your Codices in the Civilopedia — each one showing +2 Science confirms it's active.</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Are all Libraries running Research Initiative? Check each city.</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Have you mastered both <code>Literacy</code> and <code>Writing</code>? These are the two most reliable Codex sources.</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Build the <strong>Great Library</strong> wonder if your civilization has access — strong science wonder for this path.</div></div>
+      </div>
+    </div>
+    <div class="tip-box sci">💡 Your compounding science advantage means you may finish the tech tree significantly faster than other civs. Use that surplus science time to research masteries and keep the Codex train rolling.</div>
+  </div>
+
+  <div class="reward-box sci">
+    <div class="reward-icon">🏆</div>
+    <div><strong>Golden Age Reward: Scientific</strong> You carry your Codex bonuses and science infrastructure into the Exploration Age, starting with a research lead. Scientific Legacy also often unlocks special research bonuses at the start of the new Age.</div>
+  </div>
+</div>
+
+<!-- =================== CULTURE PATH =================== -->
+<div id="tab-path-cul" class="panel cul">
+
+  <div style="margin-bottom:20px;">
+    <h2 style="font-family:'Cinzel',serif;font-size:1.4rem;color:#ffce90;margin-bottom:6px;">🎭 Culture Legacy Path</h2>
+    <p style="color:var(--parchment-dark);font-size:0.9rem;line-height:1.6;">Build Wonders to accumulate Legacy Points. <strong style="color:#ffce90;">Each Wonder built = points toward your Cultural Legacy.</strong> Aim for 7 Wonders in the Antiquity Age. Speed matters — other civs race for the same Wonders.</p>
+  </div>
+
+  <div class="milestone-bar cul">
+    <div class="milestone">🏳 Start: 4000 BCE</div>
+    <div class="milestone">🏛 Goal: 7 Wonders Built</div>
+    <div class="milestone">⛪ Each Wonder = Legacy Points</div>
+    <div class="milestone">🔮 Pantheon boosts Wonder speed</div>
+    <div class="milestone">🏆 Reward: Golden Age Amphitheaters</div>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase cul">
+    <div class="phase-header">Phase 1 — Foundation <span class="phase-turns">Turns 1–15 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Start:</strong> <code>Pottery</code> — Brickyard (+Production) is critical. High production = fast Wonder building. This is the most important tech for culture path.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Then <code>Masonry</code> — unlocks Monument (+Culture) and is the prereq for Construction (Colosseum Wonder).</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Also pursue <code>Animal Husbandry</code> → Sawpit for production — Culture path is PRODUCTION hungry above all else.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><code>Chiefdom</code> — always first.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><code>Mysticism</code> — CRITICAL. Found Pantheon and pick <strong>Monument to the Gods</strong> (+25% Production toward Wonders on River tiles). This single choice can shave 10–20 turns off every Wonder you build.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>If Monument to the Gods isn't available, take <strong>God of Craftsmen</strong> (+Production for Mines and Quarries) as second choice.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Capital Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div>Build <strong>Brickyard</strong> FIRST — more production = faster Wonders. Your capital needs maximum production output.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Build <strong>Monument</strong> — +2 Culture/turn. You need culture to unlock Citizenship and Patronage fast.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Place your capital ON a River if at all possible — Monument to the Gods gives +25% Wonder production for cities on rivers. Restarting is worth it.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Work high-Production tiles: Hills (+1 Prod), Mines (+1 Prod), Quarries. Avoid food-only tiles early.</div></div>
+      </div>
+    </div>
+    <div class="tip-box cul">💡 Capital placement is EVERYTHING for Culture path. A capital on a river with Monument to the Gods Pantheon builds Wonders ~25% faster. Spend a few turns scouting before settling if needed — it's worth it.</div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase cul">
+    <div class="phase-header">Phase 2 — First Wonder Rush <span class="phase-turns">Turns 15–35 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div><code>Irrigation</code> — enables Hanging Gardens Wonder (+1 Settlement Limit). Build this as your FIRST Wonder.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div><code>Construction</code> — unlocks Colosseum Wonder. Major Culture/Happiness wonder and worth points.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div><code>Writing</code> — needed for Library and leads to Drama & Poetry tech (Theater wonder).</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div><code>Discipline</code> — still needed for Army Commander. Keep a small army to defend your wonder-building cities.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div><code>Citizenship</code> — unlocks Cultural Festival project (big Culture burst) and Drama & Poetry policy for +50% Culture building production.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div>Research your <strong>Civilization Unique Civics</strong> NOW — they unlock your civilization's Wonder WITH a production bonus. This is your fastest Wonder if timed early.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Capital:</strong> <strong>Hanging Gardens</strong> Wonder (needs Irrigation) — your first Wonder target. Gives +1 Settlement Limit, very strong early.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Immediately start your <strong>Civilization's unique Wonder</strong> after Hanging Gardens — you have a production bonus for it via unique civics.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Run the <strong>Cultural Festival</strong> project (needs Citizenship civic) in your capital between Wonders — gives a big culture burst to speed up your next civic.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Only build non-Wonder buildings if your city is idle waiting for a tech unlock. Production into Wonders is always the priority.</div></div>
+      </div>
+    </div>
+    <div class="tip-box cul">💡 Watch the Wonder race! If another civ is 3–4 turns ahead on a Wonder you want, ABANDON it and switch to a different one. Wasted production on a lost Wonder race is the #1 mistake for culture players.</div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase cul">
+    <div class="phase-header">Phase 3 — Wonder Chain Continuation <span class="phase-turns">Turns 35–60 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div><code>Drama & Poetry</code> (needs Construction or Writing) — unlocks the Theater building and possibly a Wonder associated with it.</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div><code>Philosophy</code> — unlocks advanced culture buildings. Mastery can grant Codices even on Culture path (useful!).</div></div>
+        <div class="action-item"><span class="action-icon">9.</span><div><code>Navigation</code> if coastal — Lighthouse and Harbor buildings boost production via sea trade income.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div><code>Patronage</code> — unlocks Amphitheater building (+Culture) and the <strong>Wonder Construction Endeavor</strong> (Mastery). This Mastery project gives bonus production toward a specific Wonder.</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div>Enable <strong>Drama & Poetry Policy</strong> from Citizenship: +50% Culture building production. Run this whenever building culture buildings in cities.</div></div>
+        <div class="action-item"><span class="action-icon">9.</span><div><code>Games & Recreation</code> — happiness buildings. More happiness = less unrest in your empire = full production focus on Wonders.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Capital:</strong> Build <strong>Colosseum</strong> Wonder (needs Construction). Culture and Happiness output.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><strong>Capital:</strong> Use Wonder Construction Endeavor (Patronage Mastery) to boost production toward your next Wonder.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Found a <strong>2nd city</strong> with high production — place it on hills near mines. Use it as your secondary Wonder factory.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div><strong>2nd city:</strong> Brickyard → Sawpit → build a Wonder (Dur-Sharrukin from Discipline is a good choice here).</div></div>
+      </div>
+    </div>
+    <div class="tip-box cul">💡 By mid-game, you should have 3–4 Wonders. Target the remaining 3–4 based on what's still available. Terracotta Army (Tactics), Dur-Sharrukin (Discipline), Petra (Code of Laws), Hanging Gardens, Colosseum, and your civ unique Wonder are your core 6.</div>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase cul">
+    <div class="phase-header">Phase 4 — Final Wonders & Age End <span class="phase-turns">Turns 60–90 approx.</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">10.</span><div>Finish <code>Engineering</code> and any remaining techs that unlock Wonders you haven't built yet.</div></div>
+        <div class="action-item"><span class="action-icon">11.</span><div><code>Future Tech</code> last — note: don't rush this if you still have Wonders to build. Future Tech advances the Age timer!</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">10.</span><div>Build Amphitheaters in all cities with Patronage now — these become <strong>Golden Age Amphitheaters</strong> if you complete the Cultural Legacy.</div></div>
+        <div class="action-item"><span class="action-icon">11.</span><div><code>Future Civic</code> — be careful: like Future Tech, this advances the Age. Don't research it until all 7 Wonders are done!</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Final Wonder Checklist</h4>
+        <div class="action-item"><span class="action-icon">✓</span><div><strong>Hanging Gardens</strong> (Irrigation) — +1 Settlement</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div><strong>Civ Unique Wonder</strong> (Unique Civic II) — production bonus when built</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div><strong>Colosseum</strong> (Construction) — Culture + Happiness</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div><strong>Terracotta Army</strong> (Tactics Civic) — duplicates units</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div><strong>Dur-Sharrukin</strong> (Discipline Civic) — defensive wonder</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div><strong>Petra</strong> (Code of Laws) — Gold on desert tiles</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>7th Wonder: Any available, or Great Library (Writing)</div></div>
+      </div>
+    </div>
+    <div class="tip-box cul">💡 CRITICAL: Do NOT research Future Tech or Future Civic until all 7 Wonders are finished. Both advance the Age timer significantly. Other civs may be racing you — if someone else finishes Future Tech, you may only have 10 turns left!</div>
+  </div>
+
+  <div class="reward-box cul">
+    <div class="reward-icon">🏆</div>
+    <div><strong>Golden Age Reward: Cultural</strong> All Amphitheaters in your cities become Golden Age Amphitheaters with significantly enhanced Culture and Happiness bonuses, supercharging your culture output as you enter the Exploration Age.</div>
+  </div>
+</div>
+
+<!-- Tooltip -->
+<div id="tooltip" class="tooltip">
+  <h3 id="tt-name"></h3>
+  <p id="tt-desc"></p>
+  <div class="tt-row">
+    <div id="tt-unlocks" class="tt-badge" style="background:rgba(74,158,218,0.15);border:1px solid rgba(74,158,218,0.4);color:#c8e8ff;"></div>
+    <div id="tt-path" class="tt-badge" style="background:rgba(201,162,39,0.1);border:1px solid rgba(201,162,39,0.3);color:var(--gold-light);"></div>
+  </div>
+</div>
+
+<script>
+function showTab(name, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+function showTip(e, name, desc, unlocks, path) {
+  const tt = document.getElementById('tooltip');
+  document.getElementById('tt-name').textContent = name;
+  document.getElementById('tt-desc').textContent = desc;
+  document.getElementById('tt-unlocks').textContent = '🔓 ' + unlocks;
+  document.getElementById('tt-path').textContent = '🏆 ' + path;
+  tt.classList.add('show');
+  moveTip(e);
+}
+
+function hideTip() {
+  document.getElementById('tooltip').classList.remove('show');
+}
+
+document.addEventListener('mousemove', function(e) {
+  const tt = document.getElementById('tooltip');
+  if (tt.classList.contains('show')) moveTip(e);
+});
+
+function moveTip(e) {
+  const tt = document.getElementById('tooltip');
+  let x = e.clientX + 16;
+  let y = e.clientY + 16;
+  if (x + 290 > window.innerWidth) x = e.clientX - 290;
+  if (y + 160 > window.innerHeight) y = e.clientY - 160;
+  tt.style.left = x + 'px';
+  tt.style.top = y + 'px';
+}
+</script>
+</body>
+</html>
