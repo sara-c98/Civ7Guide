@@ -89,6 +89,70 @@
     opacity: 0.8;
   }
 
+  /* ===== AGE NAV ===== */
+  .age-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 20px;
+    background: rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(201,162,39,0.15);
+    flex-wrap: wrap;
+  }
+  .age-nav-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-right: 6px;
+  }
+  .age-link {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    padding: 5px 14px;
+    border-radius: 4px;
+    border: 1px solid;
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .age-link.antiquity {
+    border-color: rgba(201,162,39,0.6);
+    color: var(--gold-light);
+    background: rgba(201,162,39,0.12);
+    cursor: default;
+    pointer-events: none;
+  }
+  .age-link.exploration {
+    border-color: rgba(58,207,218,0.45);
+    color: #a0f0ff;
+    background: rgba(58,207,218,0.08);
+  }
+  .age-link.exploration:hover {
+    background: rgba(58,207,218,0.2);
+    border-color: rgba(58,207,218,0.8);
+    box-shadow: 0 0 10px rgba(58,207,218,0.25);
+  }
+  .age-link.modern {
+    border-color: rgba(180,100,220,0.45);
+    color: #d8aaff;
+    background: rgba(180,100,220,0.08);
+  }
+  .age-link.modern:hover {
+    background: rgba(180,100,220,0.2);
+    border-color: rgba(180,100,220,0.8);
+    box-shadow: 0 0 10px rgba(180,100,220,0.25);
+  }
+  .age-link-sep {
+    color: var(--gold-dark);
+    font-size: 0.8rem;
+    opacity: 0.5;
+    user-select: none;
+  }
+
   .tab-bar {
     display: flex;
     justify-content: center;
@@ -540,6 +604,15 @@
   <h1>Civilization VII</h1>
   <div class="subtitle">Antiquity Age — Technology &amp; Civics Flowchart Guide</div>
 </header>
+
+<nav class="age-nav">
+  <span class="age-nav-label">Age</span>
+  <span class="age-link antiquity">🏺 Antiquity</span>
+  <span class="age-link-sep">›</span>
+  <a href="Exploration.html" class="age-link exploration">⛵ Exploration</a>
+  <span class="age-link-sep">›</span>
+  <a href="Modern.html" class="age-link modern">🏭 Modern</a>
+</nav>
 
 <div class="tab-bar">
   <div class="tab active" onclick="showTab('tech',this)">🔬 Tech Tree</div>
