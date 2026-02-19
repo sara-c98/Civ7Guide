@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civ 7 — Modern Age Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+
+  :root {
+    --gold: #c9a227;
+    --gold-light: #e8c85a;
+    --gold-dark: #8a6a10;
+    --parchment: #f5ecd7;
+    --parchment-dark: #e8d4a8;
+    --bg: #0d1a2d;
+    --bg-mid: #162438;
+    --bg-light: #1e3050;
+    --modern-accent: #b46adc;
+    --modern-glow: #d4a0ff;
+    --tech-blue: #1a3a5c;
+    --tech-glow: #4a9eda;
+    --civic-purple: #3a1a5c;
+    --civic-glow: #9a6ada;
+    --mil-red: #5c1a1a;
+    --mil-glow: #da4a4a;
+    --econ-green: #1a4a2a;
+    --econ-glow: #4ada7a;
+    --cult-amber: #5c3a1a;
+    --cult-glow: #da9a4a;
+    --sci-teal: #1a4a4a;
+    --sci-glow: #4adada;
+    --dem-blue: #2255aa;
+    --dem-glow: #66aaff;
+    --fas-red: #882222;
+    --fas-glow: #ff5555;
+    --com-rust: #8a3a1a;
+    --com-glow: #ff8844;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--parchment);
+    font-family: 'Crimson Pro', serif;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 15% 25%, rgba(180,106,220,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 75%, rgba(201,162,39,0.05) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='29' y='0' width='2' height='60' fill='%23b46adc06'/%3E%3Crect x='0' y='29' width='60' height='2' fill='%23b46adc06'/%3E%3C/svg%3E");
+  }
+
+  header {
+    text-align: center;
+    padding: 36px 20px 18px;
+    border-bottom: 2px solid var(--gold-dark);
+    background: linear-gradient(180deg, rgba(13,26,45,0.97) 0%, transparent 100%);
+    position: relative;
+  }
+  header::before { content: '🏭'; position: absolute; left: 40px; top: 50%; transform: translateY(-50%); font-size: 2rem; opacity: 0.4; }
+  header::after  { content: '🚀'; position: absolute; right: 40px; top: 50%; transform: translateY(-50%); font-size: 2rem; opacity: 0.4; }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 3.8vw, 2.8rem);
+    font-weight: 900;
+    color: var(--modern-glow);
+    text-shadow: 0 0 30px rgba(180,106,220,0.4), 0 2px 4px rgba(0,0,0,0.9);
+    letter-spacing: 0.05em;
+  }
+  .subtitle { font-size: 1.05rem; color: var(--parchment-dark); margin-top: 6px; font-style: italic; opacity: 0.75; }
+  .age-badge {
+    display: inline-block; margin-top: 8px; padding: 3px 14px;
+    border: 1px solid var(--modern-glow); border-radius: 20px;
+    font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.14em;
+    color: var(--modern-glow); background: rgba(180,106,220,0.08);
+  }
+
+  /* ===== AGE NAV ===== */
+  .age-nav {
+    display: flex; justify-content: center; align-items: center; gap: 6px;
+    padding: 12px 20px; background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(201,162,39,0.15); flex-wrap: wrap;
+  }
+  .age-nav-label { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.18em; color: var(--gold-dark); margin-right: 6px; }
+  .age-link {
+    font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.08em;
+    padding: 5px 14px; border-radius: 4px; border: 1px solid;
+    text-decoration: none; transition: all 0.2s; white-space: nowrap;
+  }
+  .age-link.antiquity { border-color: rgba(201,162,39,0.45); color: var(--gold-light); background: rgba(201,162,39,0.08); }
+  .age-link.antiquity:hover { background: rgba(201,162,39,0.22); border-color: var(--gold); box-shadow: 0 0 10px rgba(201,162,39,0.25); }
+  .age-link.exploration { border-color: rgba(58,207,218,0.45); color: #a0f0ff; background: rgba(58,207,218,0.08); }
+  .age-link.exploration:hover { background: rgba(58,207,218,0.2); border-color: rgba(58,207,218,0.8); box-shadow: 0 0 10px rgba(58,207,218,0.25); }
+  .age-link.current { border-color: rgba(180,106,220,0.7); color: var(--modern-glow); background: rgba(180,106,220,0.12); cursor: default; pointer-events: none; }
+  .age-link-sep { color: var(--gold-dark); font-size: 0.8rem; opacity: 0.5; user-select: none; }
+
+  /* ===== TABS ===== */
+  .tab-bar {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 0;
+    padding: 16px 20px 0; border-bottom: 1px solid var(--gold-dark);
+  }
+  .tab {
+    font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.07em;
+    padding: 10px 20px; cursor: pointer; border: 1px solid var(--gold-dark);
+    border-bottom: none; background: var(--bg-mid); color: var(--parchment-dark);
+    transition: all 0.2s; position: relative; top: 1px; white-space: nowrap;
+  }
+  .tab:first-child { border-radius: 6px 0 0 0; }
+  .tab:last-child  { border-radius: 0 6px 0 0; }
+  .tab:hover { background: rgba(180,106,220,0.1); color: var(--modern-glow); }
+  .tab.active { background: var(--bg); color: var(--gold); border-color: var(--gold-dark); text-shadow: 0 0 10px rgba(201,162,39,0.3); }
+
+  .panel { display: none; padding: 28px 20px 50px; max-width: 1400px; margin: 0 auto; }
+  .panel.active { display: block; }
+
+  /* ===== LEGEND ===== */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    margin-bottom: 24px; padding: 14px;
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(201,162,39,0.18); border-radius: 8px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 0.8rem; color: var(--parchment-dark); }
+  .legend-dot { width: 13px; height: 13px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.2); }
+
+  /* ===== INFO BANNER ===== */
+  .info-banner {
+    background: rgba(180,106,220,0.05); border: 1px solid rgba(180,106,220,0.2);
+    border-radius: 8px; padding: 13px 17px; margin-bottom: 22px;
+    font-size: 0.85rem; color: var(--parchment-dark); line-height: 1.6;
+  }
+  .info-banner strong { color: var(--modern-glow); }
+
+  /* ===== TREE ===== */
+  .tree-section { margin-bottom: 30px; }
+  .section-label {
+    font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.14em;
+    color: var(--gold-dark); margin-bottom: 14px; padding-bottom: 6px;
+    border-bottom: 1px solid rgba(201,162,39,0.18);
+  }
+  .tier-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 6px; flex-wrap: wrap; }
+  .tier-label {
+    font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.1em;
+    color: var(--gold-dark); writing-mode: vertical-rl; transform: rotate(180deg);
+    min-width: 22px; padding: 6px 0; text-align: center; opacity: 0.65;
+  }
+  .nodes { display: flex; flex-wrap: wrap; gap: 9px; flex: 1; }
+
+  .node {
+    padding: 9px 13px; border-radius: 6px; border: 1px solid;
+    font-size: 0.79rem; font-weight: 600; cursor: default;
+    transition: all 0.2s; position: relative; min-width: 130px;
+    text-align: center; line-height: 1.3;
+  }
+  .node .node-sub { font-size: 0.66rem; font-weight: 400; font-family: 'Crimson Pro', serif; font-style: italic; opacity: 0.72; display: block; margin-top: 3px; }
+  .node .node-tag { position: absolute; top: -6px; right: 6px; font-size: 0.52rem; font-family: 'Cinzel', serif; letter-spacing: 0.1em; padding: 1px 5px; border-radius: 3px; border: 1px solid; text-transform: uppercase; }
+  .node:hover { transform: translateY(-2px); }
+
+  .n-tech  { background: rgba(26,58,92,0.7);  border-color: var(--tech-glow); color: #c8e8ff; box-shadow: 0 0 7px rgba(74,158,218,0.12); }
+  .n-tech:hover  { box-shadow: 0 0 14px rgba(74,158,218,0.35); border-color: #7ac4f0; }
+  .n-civic { background: rgba(58,26,92,0.7);  border-color: var(--civic-glow); color: #e0c8ff; box-shadow: 0 0 7px rgba(154,106,218,0.12); }
+  .n-civic:hover { box-shadow: 0 0 14px rgba(154,106,218,0.35); border-color: #c0a0f0; }
+  .n-dem   { background: rgba(34,85,170,0.5); border-color: var(--dem-glow); color: #c0d8ff; }
+  .n-fas   { background: rgba(136,34,34,0.5); border-color: var(--fas-glow); color: #ffc0c0; }
+  .n-com   { background: rgba(138,58,26,0.5); border-color: var(--com-glow); color: #ffdcc0; }
+
+  .tag-mil { background: rgba(92,26,26,0.8); border-color: var(--mil-glow); color: #ffc8c8; }
+  .tag-eco { background: rgba(26,74,42,0.8);  border-color: var(--econ-glow); color: #c8ffd8; }
+  .tag-sci { background: rgba(26,74,74,0.8);  border-color: var(--sci-glow); color: #c8ffff; }
+  .tag-cul { background: rgba(92,58,26,0.8);  border-color: var(--cult-glow); color: #ffe0c8; }
+  .tag-nuke{ background: rgba(80,10,10,0.9);  border-color: #ff2222; color: #ffaaaa; }
+  .tag-space { background: rgba(10,10,60,0.9); border-color: #4488ff; color: #aaccff; }
+  .tag-key { background: rgba(180,106,220,0.2); border-color: var(--modern-glow); color: var(--modern-glow); }
+
+  .arrow-row { display: flex; gap: 10px; margin: 2px 0; padding-left: 34px; }
+  .arrow-block { flex: 1; min-width: 130px; display: flex; justify-content: center; color: var(--gold-dark); font-size: 1.1rem; opacity: 0.45; }
+
+  /* ===== TOOLTIP ===== */
+  .tooltip { display: none; position: fixed; z-index: 999; background: var(--bg-mid); border: 1px solid var(--gold-dark); border-radius: 8px; padding: 13px 17px; max-width: 290px; pointer-events: none; box-shadow: 0 8px 32px rgba(0,0,0,0.8); }
+  .tooltip.show { display: block; }
+  .tooltip h3 { font-family: 'Cinzel', serif; font-size: 0.88rem; color: var(--gold-light); margin-bottom: 7px; }
+  .tooltip p  { font-size: 0.8rem; color: var(--parchment-dark); line-height: 1.5; }
+  .tt-row { display: flex; gap: 6px; margin-top: 6px; font-size: 0.72rem; flex-wrap: wrap; }
+  .tt-badge { padding: 2px 7px; border-radius: 4px; font-family: 'Cinzel', serif; letter-spacing: 0.04em; font-size: 0.62rem; }
+
+  /* ===== VICTORY PATHS ===== */
+  .milestone-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+  .milestone { padding: 5px 13px; border-radius: 20px; font-size: 0.72rem; font-family: 'Cinzel', serif; letter-spacing: 0.06em; display: flex; align-items: center; gap: 5px; }
+  .mil .milestone { background: rgba(218,74,74,0.15);  border: 1px solid rgba(218,74,74,0.4);  color: #ffa0a0; }
+  .eco .milestone { background: rgba(74,218,122,0.15); border: 1px solid rgba(74,218,122,0.4); color: #a0ffb8; }
+  .sci .milestone { background: rgba(74,218,218,0.15); border: 1px solid rgba(74,218,218,0.4); color: #a0f0ff; }
+  .cul .milestone { background: rgba(218,154,74,0.15); border: 1px solid rgba(218,154,74,0.4); color: #ffce90; }
+
+  .phase { margin-bottom: 26px; }
+  .phase-header {
+    font-family: 'Cinzel', serif; font-size: 0.73rem; letter-spacing: 0.13em;
+    padding: 8px 15px; border-radius: 6px 6px 0 0;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .phase-header .phase-turns { font-size: 0.63rem; opacity: 0.7; font-style: italic; font-family: 'Crimson Pro', serif; margin-left: auto; }
+  .mil .phase-header { background: rgba(92,26,26,0.5);  color: #ffa0a0; border: 1px solid rgba(218,74,74,0.4);  border-bottom: none; }
+  .eco .phase-header { background: rgba(26,74,42,0.5);  color: #a0ffb8; border: 1px solid rgba(74,218,122,0.4); border-bottom: none; }
+  .sci .phase-header { background: rgba(26,74,74,0.5);  color: #a0f0ff; border: 1px solid rgba(74,218,218,0.4); border-bottom: none; }
+  .cul .phase-header { background: rgba(92,58,26,0.5);  color: #ffce90; border: 1px solid rgba(218,154,74,0.4); border-bottom: none; }
+
+  .phase-body { border-radius: 0 0 8px 8px; padding: 16px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .mil .phase-body { background: rgba(92,26,26,0.1);  border: 1px solid rgba(218,74,74,0.22); }
+  .eco .phase-body { background: rgba(26,74,42,0.1);  border: 1px solid rgba(74,218,122,0.22); }
+  .sci .phase-body { background: rgba(26,74,74,0.1);  border: 1px solid rgba(74,218,218,0.22); }
+  .cul .phase-body { background: rgba(92,58,26,0.1);  border: 1px solid rgba(218,154,74,0.22); }
+  @media (max-width: 800px) { .phase-body { grid-template-columns: 1fr; } }
+
+  .action-col h4 { font-family: 'Cinzel', serif; font-size: 0.68rem; letter-spacing: 0.1em; opacity: 0.58; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .action-item { display: flex; gap: 8px; margin-bottom: 9px; font-size: 0.83rem; color: var(--parchment-dark); line-height: 1.45; align-items: flex-start; }
+  .action-icon { font-size: 0.88rem; flex-shrink: 0; margin-top: 1px; }
+  .action-item strong { color: var(--parchment); }
+
+  .mil code { font-family:'Cinzel',serif;font-size:0.7rem;padding:1px 5px;border-radius:3px;background:rgba(218,74,74,0.12);border:1px solid rgba(218,74,74,0.35);color:#ffc0c0; }
+  .eco code { font-family:'Cinzel',serif;font-size:0.7rem;padding:1px 5px;border-radius:3px;background:rgba(74,218,122,0.12);border:1px solid rgba(74,218,122,0.35);color:#c0ffd0; }
+  .sci code { font-family:'Cinzel',serif;font-size:0.7rem;padding:1px 5px;border-radius:3px;background:rgba(74,218,218,0.12);border:1px solid rgba(74,218,218,0.35);color:#c0f8ff; }
+  .cul code { font-family:'Cinzel',serif;font-size:0.7rem;padding:1px 5px;border-radius:3px;background:rgba(218,154,74,0.12);border:1px solid rgba(218,154,74,0.35);color:#ffe4c0; }
+
+  .tip-box { margin-top: 11px; padding: 10px 14px; border-radius: 6px; font-size: 0.79rem; font-style: italic; color: var(--parchment-dark); line-height: 1.5; }
+  .mil .tip-box { background: rgba(218,74,74,0.06);  border-left: 3px solid rgba(218,74,74,0.5); }
+  .eco .tip-box { background: rgba(74,218,122,0.06); border-left: 3px solid rgba(74,218,122,0.5); }
+  .sci .tip-box { background: rgba(74,218,218,0.06); border-left: 3px solid rgba(74,218,218,0.5); }
+  .cul .tip-box { background: rgba(218,154,74,0.06); border-left: 3px solid rgba(218,154,74,0.5); }
+
+  .reward-box { margin-top: 24px; padding: 17px; border-radius: 10px; display: flex; align-items: center; gap: 15px; font-size: 0.87rem; color: var(--parchment-dark); }
+  .mil .reward-box { background: rgba(218,74,74,0.09);  border: 1px solid rgba(218,74,74,0.38); }
+  .eco .reward-box { background: rgba(74,218,122,0.09); border: 1px solid rgba(74,218,122,0.38); }
+  .sci .reward-box { background: rgba(74,218,218,0.09); border: 1px solid rgba(74,218,218,0.38); }
+  .cul .reward-box { background: rgba(218,154,74,0.09); border: 1px solid rgba(218,154,74,0.38); }
+  .reward-box .reward-icon { font-size: 2.1rem; flex-shrink: 0; }
+  .reward-box strong { color: var(--gold-light); display: block; font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.05em; margin-bottom: 4px; }
+
+  /* ideology card */
+  .ideology-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+  @media (max-width: 800px) { .ideology-grid { grid-template-columns: 1fr; } }
+  .ideology-card { border-radius: 8px; padding: 16px; border: 1px solid; }
+  .ideology-card h3 { font-family: 'Cinzel', serif; font-size: 0.9rem; margin-bottom: 10px; }
+  .ideology-card.dem { background: rgba(34,85,170,0.1); border-color: var(--dem-glow); }
+  .ideology-card.dem h3 { color: var(--dem-glow); }
+  .ideology-card.fas { background: rgba(136,34,34,0.1); border-color: var(--fas-glow); }
+  .ideology-card.fas h3 { color: var(--fas-glow); }
+  .ideology-card.com { background: rgba(138,58,26,0.1); border-color: var(--com-glow); }
+  .ideology-card.com h3 { color: var(--com-glow); }
+  .ideology-card ul { list-style: none; padding: 0; }
+  .ideology-card li { font-size: 0.82rem; color: var(--parchment-dark); margin-bottom: 7px; padding-left: 14px; position: relative; line-height: 1.4; }
+  .ideology-card li::before { content: '›'; position: absolute; left: 0; opacity: 0.6; }
+  .ideology-card .best-for { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.1em; padding: 3px 9px; border-radius: 12px; display: inline-block; margin-top: 8px; }
+  .dem .best-for { background: rgba(34,85,170,0.2); border: 1px solid var(--dem-glow); color: var(--dem-glow); }
+  .fas .best-for { background: rgba(136,34,34,0.2); border: 1px solid var(--fas-glow); color: var(--fas-glow); }
+  .com .best-for { background: rgba(138,58,26,0.2); border: 1px solid var(--com-glow); color: var(--com-glow); }
+
+  @media (max-width: 600px) {
+    .tier-label { display: none; }
+    .node { min-width: 110px; font-size: 0.73rem; }
+    .tab { padding: 8px 12px; font-size: 0.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Civilization VII</h1>
+  <div class="subtitle">Modern Age — Technology &amp; Civics Flowchart Guide</div>
+  <div class="age-badge">1800s–WWII · Industrialization · Ideology · Space Race · Nuclear Age</div>
+</header>
+
+<nav class="age-nav">
+  <span class="age-nav-label">Age</span>
+  <a href="index.html" class="age-link antiquity">🏺 Antiquity</a>
+  <span class="age-link-sep">›</span>
+  <a href="Exploration.html" class="age-link exploration">⛵ Exploration</a>
+  <span class="age-link-sep">›</span>
+  <span class="age-link current">🏭 Modern</span>
+</nav>
+
+<div class="tab-bar">
+  <div class="tab active" onclick="showTab('tech',this)">⚙️ Tech Tree</div>
+  <div class="tab" onclick="showTab('civics',this)">📜 Civics Tree</div>
+  <div class="tab" onclick="showTab('ideology',this)">🗳️ Ideology Branches</div>
+  <div class="tab" onclick="showTab('path-mil',this)">⚔️ Military Path</div>
+  <div class="tab" onclick="showTab('path-eco',this)">💰 Economic Path</div>
+  <div class="tab" onclick="showTab('path-sci',this)">🚀 Science Path</div>
+  <div class="tab" onclick="showTab('path-cul',this)">🎭 Culture Path</div>
+</div>
+
+<!-- =================== TECH TREE =================== -->
+<div id="tab-tech" class="panel active">
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#1a3a5c;border-color:#4a9eda;"></div> Technology</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(218,74,74,0.3);border-color:#da4a4a;"></div> Military</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(74,218,122,0.3);border-color:#4ada7a;"></div> Economic</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(74,218,218,0.3);border-color:#4adada;"></div> Science</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(218,154,74,0.3);border-color:#da9a4a;"></div> Culture</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(80,10,10,0.8);border-color:#ff2222;"></div> Nuclear</div>
+    <div class="legend-item" style="font-style:italic;opacity:0.55;">Hover nodes for details</div>
+  </div>
+
+  <div class="info-banner">
+    <strong>The Modern Age spans the Industrial Revolution through WWII and into the Space Age.</strong> The tech tree is longer and more combat-focused than previous ages. Three technologies are available immediately (Academics, Steam Engine, Military Science). The tree culminates in <strong>Rocketry</strong> — the only way to access Launch Pads and the Space Race. <strong>Flight</strong> is the critical mid-tree pivot for Science victory; <strong>Mass Production</strong> and <strong>Industrialization</strong> are core for everyone.
+  </div>
+
+  <!-- TIER 1 -->
+  <div class="tree-section">
+    <div class="section-label">Tier 1 — Starting Technologies (Available Immediately)</div>
+    <div class="tier-row">
+      <div class="tier-label">T1</div>
+      <div class="nodes">
+        <div class="node n-tech" onmouseenter="showTip(event,'Academics','Unlocks the Laboratory (+Science building) and Oxford University wonder. The Laboratory is your first major science building of the age. Oxford gives a free tech boost and Science. Essential first tech for Science path.','Laboratory, Oxford University wonder','Science')" onmouseleave="hideTip()">
+          🎓 Academics
+          <span class="node-sub">Laboratory · Oxford University</span>
+          <div class="node-tag tag-sci">SCI</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Steam Engine','Unlocks a production building, a gold building, and a Merchant unit plus the Ironclad (first modern naval unit). Opens the economic and naval tech chains. Key early economic tech.','Production building, Ironclad, Merchant','Economic, Naval')" onmouseleave="hideTip()">
+          🚂 Steam Engine
+          <span class="node-sub">Ironclad · Merchant · Production</span>
+          <div class="node-tag tag-eco">ECO</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Military Science','Unlocks a military production building and a fortification building plus a wonder. This is the first military tech and opens the land warfare chain. Mastery gives +3 Combat for Infantry.','Military building, Fortification, Wonder','Military')" onmouseleave="hideTip()">
+          🎖️ Military Science
+          <span class="node-sub">Military building · Fortification</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <!-- TIER 2 -->
+  <div class="tree-section">
+    <div class="section-label">Tier 2 — Industrial Core Technologies</div>
+    <div class="tier-row">
+      <div class="tier-label">T2</div>
+      <div class="nodes">
+        <div class="node n-tech" onmouseenter="showTip(event,'Electricity','Requires Academics. Unlocks a Science building (+more Science) and a Power building. Mastery gives further yield bonuses. One of two key science-building techs alongside Academics.','Science building, Power building','Science')" onmouseleave="hideTip()">
+          ⚡ Electricity
+          <span class="node-sub">Science building · Power plant</span>
+          <div class="node-tag tag-sci">SCI</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Urbanization','Requires Steam Engine. Unlocks two city buildings boosting population capacity and happiness. Mastery gives additional building bonuses. Critical infrastructure for large modern cities.','City buildings, Population bonuses','Economic, Happiness')" onmouseleave="hideTip()">
+          🏙️ Urbanization
+          <span class="node-sub">City buildings · Population</span>
+          <div class="node-tag tag-eco">ECO</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Combustion','Requires Military Science. Unlocks the Dreadnought (powerful battleship), Landship (early tank), and a Tier 2 light naval unit. Mastery bonuses for naval/land units. Opens the advanced military chain.','Dreadnought, Landship (Tank), Light Naval Tier 2','Military, Naval')" onmouseleave="hideTip()">
+          💥 Combustion
+          <span class="node-sub">Dreadnought · Landship · Naval</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <!-- TIER 3 -->
+  <div class="tree-section">
+    <div class="section-label">Tier 3 — Mid-Age Technologies</div>
+    <div class="tier-row">
+      <div class="tier-label">T3</div>
+      <div class="nodes">
+        <div class="node n-tech" onmouseenter="showTip(event,'Industrialization','Requires Electricity + Urbanization. Unlocks Rail Stations — buildings that let units instantly teleport between Rail Station tiles across your empire. Also unlocks Field Gun, Howitzer (Siege), and Rifle Infantry. MASSIVE quality-of-life for military logistics.','Rail Station, Field Gun, Howitzer, Rifle Infantry','Military, Economic')" onmouseleave="hideTip()">
+          🏗️ Industrialization
+          <span class="node-sub">Rail Station · Rifle Infantry · Howitzer</span>
+          <div class="node-tag tag-key">KEY</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Radio','Unlocks a Radio Station building and the Eiffel Tower wonder (+Culture in all cities empire-wide). Also unlocks culture bonuses. Mastery gives yield improvements. The Eiffel Tower is one of the best culture wonders in the game.','Radio Station, Eiffel Tower wonder','Culture, Economic')" onmouseleave="hideTip()">
+          📻 Radio
+          <span class="node-sub">Radio Station · Eiffel Tower</span>
+          <div class="node-tag tag-cul">CUL</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Mass Production','Unlocks Factory buildings — each Factory has a Factory Resource slot for powerful industrial resources (Coal, Oil, etc. from Distant Lands). Also unlocks additional buildings and bonuses. Factories are the most impactful economic buildings in the Modern Age.','Factory (Factory Resource slot), Buildings','Economic')" onmouseleave="hideTip()">
+          🏭 Mass Production
+          <span class="node-sub">Factory · Factory Resources</span>
+          <div class="node-tag tag-eco">PRIORITY</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <!-- TIER 4 -->
+  <div class="tree-section">
+    <div class="section-label">Tier 4 — Advanced Technologies</div>
+    <div class="tier-row">
+      <div class="tier-label">T4</div>
+      <div class="nodes">
+        <div class="node n-tech" onmouseenter="showTip(event,'Flight','Unlocks the Aerodrome district building, Squadron Commander (Air support unit), Biplane, WWI Dive Bomber, and WWI Heavy Bomber. The Aerodrome lets you house and use air units, which are critical for the Space Race (Aerodrome needed for Launch Pad). SCIENCE PATH PRIORITY.','Aerodrome, Squadron Commander, Biplane, Dive Bomber, Heavy Bomber','Science, Military')" onmouseleave="hideTip()">
+          ✈️ Flight
+          <span class="node-sub">Aerodrome · Air units · Squadron Cmdr</span>
+          <div class="node-tag tag-sci">SCI KEY</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Mobilization','Requires Combustion. Unlocks Aircraft Carrier, Destroyer, Battleship, and Submarine — the full WWII naval roster. Mastery gives naval combat bonuses. Naval dominance tech.','Aircraft Carrier, Destroyer, Battleship, Submarine','Military, Naval')" onmouseleave="hideTip()">
+          ⚓ Mobilization
+          <span class="node-sub">Carrier · Battleship · Submarine</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Armor','Requires Combustion + Industrialization. Unlocks AT Gun, Tank (strongest land unit), Mobile Artillery, Tier 3 Infantry, and Marines. Mastery gives further combat bonuses. The Tank is the most powerful land unit in the game.','AT Gun, Tank, Mobile Artillery, Tier 3 Infantry, Marines','Military')" onmouseleave="hideTip()">
+          🛡️ Armor
+          <span class="node-sub">Tank · AT Gun · Marines</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <!-- TIER 5 -->
+  <div class="tree-section">
+    <div class="section-label">Tier 5 — Late-Age Technologies</div>
+    <div class="tier-row">
+      <div class="tier-label">T5</div>
+      <div class="nodes">
+        <div class="node n-tech" onmouseenter="showTip(event,'Aerodynamics','Requires Flight. Unlocks Fighter, Dive Bomber, and Heavy Bomber — the full WWII air roster. These are drastically stronger than WWI planes. Fighters intercept enemy bombers. Heavy Bombers can deliver nuclear warheads.','Fighter, Dive Bomber, Heavy Bomber','Military, Air')" onmouseleave="hideTip()">
+          🛩️ Aerodynamics
+          <span class="node-sub">Fighter · Heavy Bomber · Dive Bomber</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+        <div class="node n-tech" onmouseenter="showTip(event,'Rocketry','FINAL TECH. Requires all previous main techs completed. Unlocks Launch Pad building. With a Launch Pad you can run Launch Satellite and Staffed Space Flight projects — the last gives you Scientific Victory. Also enables Manhattan Project (nuclear) if Military path is complete.','Launch Pad, Space Race Projects, Manhattan Project path','Science, Military')" onmouseleave="hideTip()">
+          🚀 Rocketry
+          <span class="node-sub">Launch Pad · Space Race Projects</span>
+          <div class="node-tag tag-space">FINAL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div></div>
+
+  <!-- TIER 6 -->
+  <div class="tree-section">
+    <div class="section-label">Tier 6 — End of Age</div>
+    <div class="tier-row">
+      <div class="tier-label">T6</div>
+      <div class="nodes">
+        <div class="node n-tech" style="border-color:var(--gold);background:rgba(201,162,39,0.1);color:var(--gold-light);" onmouseenter="showTip(event,'Future Tech','Repeatable end-of-age tech. Each research grants +10 Age Progress and a Wildcard Attribute Point. Research after all victory conditions are met or to deliberately advance the age timer.','+10 Age Progress, +1 Wildcard Attribute','All')" onmouseleave="hideTip()">
+          ✨ Future Tech
+          <span class="node-sub">+10 Age Progress · Wildcard Attr.</span>
+          <div class="node-tag" style="background:rgba(201,162,39,0.2);border-color:var(--gold);color:var(--gold-light);">REPEAT</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Special callout -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px;">
+    <div style="background:rgba(80,10,10,0.15);border:1px solid rgba(255,34,34,0.35);border-radius:8px;padding:14px;">
+      <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:#ff6666;margin-bottom:8px;letter-spacing:0.1em;">☢️ NUCLEAR PATH (Military Victory Required)</div>
+      <p style="font-size:0.82rem;color:var(--parchment-dark);line-height:1.6;">Complete the full Military Legacy Path → Manhattan Project Wonder becomes available → Build Nuclear Warheads in cities → Deploy via Heavy Bomber, Aircraft Carrier, or Squadron Commander. Alternatively: Run <strong>Operation Ivy Project</strong> to trigger Military Victory outright without nuking anyone.</p>
+    </div>
+    <div style="background:rgba(10,10,60,0.2);border:1px solid rgba(68,136,255,0.35);border-radius:8px;padding:14px;">
+      <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:#88bbff;margin-bottom:8px;letter-spacing:0.1em;">🚀 SPACE RACE PATH (Science Victory)</div>
+      <p style="font-size:0.82rem;color:var(--parchment-dark);line-height:1.6;">Research <strong>Flight</strong> → build Aerodrome → research <strong>Rocketry</strong> → build Launch Pad → run <strong>Launch Satellite</strong> project → run <strong>Staffed Space Flight</strong> project → Scientific Victory. Both projects run in the city with the Launch Pad. High Science output is critical.</p>
+    </div>
+  </div>
+</div>
+
+<!-- =================== CIVICS TREE =================== -->
+<div id="tab-civics" class="panel">
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#3a1a5c;border-color:#9a6ada;"></div> Civic</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(34,85,170,0.4);border-color:#66aaff;"></div> Democracy</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(136,34,34,0.4);border-color:#ff5555;"></div> Fascism</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(138,58,26,0.4);border-color:#ff8844;"></div> Communism</div>
+  </div>
+
+  <div class="info-banner">
+    <strong>Modern Age civics introduce Ideology</strong> — once you research <strong>Political Theory</strong>, you choose one of three Ideology branches (Democracy, Fascism, or Communism). Each branch has 3 civics with distinct bonuses shaping your final victory push. The main civic chain also unlocks <strong>Museums</strong> and <strong>Explorers</strong> (Culture path), Factories (Economic), and major wonders. See the <em>Ideology Branches</em> tab for full comparison.
+  </div>
+
+  <!-- TIER 1 -->
+  <div class="tree-section">
+    <div class="section-label">Tier 1 — Opening Civics (All Available Immediately)</div>
+    <div class="tier-row">
+      <div class="tier-label">T1</div>
+      <div class="nodes">
+        <div class="node n-civic" onmouseenter="showTip(event,'Social Question','Unlocks two civic options and leads toward the Red Fort wonder path. Addresses workers\' rights and social issues of the industrial era. Opens mid-tier civic chains.','Two civics, Red Fort wonder path','General, Culture')" onmouseleave="hideTip()">
+          ⚖️ Social Question
+          <span class="node-sub">Industrial-era civics · Red Fort path</span>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Modernization','Unlocks two civic options and leads toward the Hermitage wonder. Modernization of government and society. Opens the cultural civic chain.','Two civics, Hermitage wonder path','Culture, General')" onmouseleave="hideTip()">
+          🏛️ Modernization
+          <span class="node-sub">Government civics · Hermitage path</span>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Natural History','CULTURE PATH PRIORITY. Unlocks Natural History civic (Explorer unit!), Museum building, Muzibu Azaala Mpanga wonder, and enables Explorers to research Artifact dig sites. Explorers find artifacts to fill Museums for Culture Legacy victory.','Natural History civic, Museum, Explorer unit, Muzibu Azaala Mpanga','Culture')" onmouseleave="hideTip()">
+          🦕 Natural History
+          <span class="node-sub">Museum · Explorer unit · Artifacts</span>
+          <div class="node-tag tag-cul">PRIORITY</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <!-- TIER 2 -->
+  <div class="tree-section">
+    <div class="section-label">Tier 2 — Core Modern Civics</div>
+    <div class="tier-row">
+      <div class="tier-label">T2</div>
+      <div class="nodes">
+        <div class="node n-civic" onmouseenter="showTip(event,'Nationalism','Unlocks nationalist policies with bonuses for large empires and cultural identity. Mastery unlocks the Taj Mahal wonder (+Culture, +Happiness).','Nationalist Policies, Taj Mahal wonder (mastery)','Culture, Military')" onmouseleave="hideTip()">
+          🏴 Nationalism
+          <span class="node-sub">Empire policies · Taj Mahal</span>
+          <div class="node-tag tag-cul">CUL</div>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Globalism','Unlocks global trade policies boosting trade route yields and diplomatic power. Mastery unlocks the Palacio de Bellas Artes wonder (+Culture). Excellent for Economic and Culture paths.','Trade policies, Palacio de Bellas Artes wonder (mastery)','Economic, Culture')" onmouseleave="hideTip()">
+          🌐 Globalism
+          <span class="node-sub">Trade policies · Palacio de Bellas Artes</span>
+          <div class="node-tag tag-eco">ECO</div>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Political Theory','KEY CIVIC. Unlocks Free Speech civic, adds +1 Social Policy slot (very valuable!), and most importantly: UNLOCKS THE IDEOLOGY TREE — choose Democracy, Fascism, or Communism. Also unlocks the Doi Suthep wonder.','Free Speech, +1 Policy Slot, Ideology unlock, Doi Suthep wonder','All — Ideology Gate')" onmouseleave="hideTip()">
+          📋 Political Theory
+          <span class="node-sub">+1 Policy Slot · Ideology Unlock</span>
+          <div class="node-tag tag-key">GATE</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div><div class="arrow-block">↓</div></div>
+
+  <!-- TIER 3 -->
+  <div class="tree-section">
+    <div class="section-label">Tier 3 — Late-Age Power Civics</div>
+    <div class="tier-row">
+      <div class="tier-label">T3</div>
+      <div class="nodes">
+        <div class="node n-civic" onmouseenter="showTip(event,'Hegemony','Unlocks dominance policies with military and diplomatic power. Mastery unlocks Dōgo Onsen wonder. Combines well with Military or expansionist play.','Dominance policies, Dōgo Onsen wonder (mastery)','Military, Diplomacy')" onmouseleave="hideTip()">
+          👁️ Hegemony
+          <span class="node-sub">Dominance policies · Dōgo Onsen</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Militarism','Unlocks military policies for unit production speed and combat bonuses. Mastery unlocks the Brandenburg Gate wonder (+Military units, unit bonuses). Strong for military-focused endgame.','Military policies, Brandenburg Gate wonder (mastery)','Military')" onmouseleave="hideTip()">
+          ⚔️ Militarism
+          <span class="node-sub">Military policies · Brandenburg Gate</span>
+          <div class="node-tag tag-mil">MIL</div>
+        </div>
+        <div class="node n-civic" onmouseenter="showTip(event,'Capitalism','Unlocks economic policies for gold and production scaling. Mastery unlocks the Statue of Liberty wonder (+Diplomatic bonuses, +Economic yields). Best economic endgame civic.','Economic policies, Statue of Liberty wonder (mastery)','Economic')" onmouseleave="hideTip()">
+          💵 Capitalism
+          <span class="node-sub">Economic policies · Statue of Liberty</span>
+          <div class="node-tag tag-eco">ECO</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row"><div class="arrow-block">↓</div></div>
+
+  <!-- Future -->
+  <div class="tree-section">
+    <div class="section-label">End of Age Civic</div>
+    <div class="tier-row">
+      <div class="tier-label">T4</div>
+      <div class="nodes">
+        <div class="node n-civic" style="border-color:var(--gold);background:rgba(201,162,39,0.1);color:var(--gold-light);" onmouseenter="showTip(event,'Future Civic','Final civic of the game. Research only after all victory conditions are secured. +10 Age Progress, Culture bonus.','+10 Age Progress, Culture boost, Wildcard Attribute','All')" onmouseleave="hideTip()">
+          ✨ Future Civic
+          <span class="node-sub">+10 Age · Culture boost · Game End</span>
+          <div class="node-tag" style="background:rgba(201,162,39,0.2);border-color:var(--gold);color:var(--gold-light);">FINAL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ideology teaser -->
+  <div class="info-banner" style="margin-top:24px;">
+    <strong>🗳️ Ideology branches</strong> (Democracy, Fascism, Communism) are separate civic trees unlocked via <strong>Political Theory</strong>. Each has 3 civics. See the <strong>Ideology Branches tab</strong> for full details, recommended paths, and which victory types each favors.
+  </div>
+
+  <!-- Unique civics -->
+  <div class="tree-section" style="margin-top:10px;">
+    <div class="section-label">Civilization Unique Civics — Modern Age (3–4 per Civ, Run in Parallel)</div>
+    <div class="info-banner">
+      Modern Age civs (America, France, Great Britain, Buganda, etc.) each have their own 3–4 civic chain unlocking unique buildings, the Statue of Liberty, Brandenburg Gate, Battersea Power Station, Eiffel Tower, and Traditions. Research these alongside the main tree — they often provide critical wonders for your victory path.
+    </div>
+    <div class="tier-row">
+      <div class="tier-label">UNQ</div>
+      <div class="nodes">
+        <div class="node n-civic" style="border-style:dashed;opacity:0.82;">⭐ Unique Civic I<span class="node-sub">Civ building · Tradition</span></div>
+        <div class="node n-civic" style="border-style:dashed;opacity:0.82;">⭐ Unique Civic II<span class="node-sub">Civ wonder · Tradition upgrade</span></div>
+        <div class="node n-civic" style="border-style:dashed;opacity:0.82;">⭐ Unique Civic III<span class="node-sub">Unit buff · Ageless tradition</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== IDEOLOGY =================== -->
+<div id="tab-ideology" class="panel">
+  <div class="info-banner">
+    <strong>Ideology unlocks after researching Political Theory.</strong> You choose ONE of three branches and research all three of its civics. Each ideology gives a distinct set of policies, unit bonuses, and bonuses that shape your final victory strategy. You cannot switch ideologies mid-age. Choose carefully based on your victory path.
+  </div>
+
+  <div class="ideology-grid">
+    <div class="ideology-card dem">
+      <h3>🗽 Democracy</h3>
+      <ul>
+        <li><strong>Democracy civic:</strong> Fireside Chats policy, Suffrage policy, +4 Infantry Units (free!), +1 Cultural Attribute Point, +1 Diplomatic Attribute Point</li>
+        <li><strong>Liberalism civic:</strong> Free Press policy, Welfare State policy — boosted happiness and cultural output across all cities</li>
+        <li><strong>Progressivism civic:</strong> Avant Garde policy, New Deal policy (economic bonuses), Their Finest Hour policy (combat boost when outnumbered)</li>
+        <li>Strong free unit grants make Democracy excellent for quickly reinforcing armies without production cost</li>
+        <li>Best policy diversity — slots well with Culture, Economic, and hybrid strategies</li>
+      </ul>
+      <span class="best-for">BEST FOR: Culture · Economic · Diplomatic</span>
+    </div>
+
+    <div class="ideology-card fas">
+      <h3>⚡ Fascism</h3>
+      <ul>
+        <li><strong>Fascism civic:</strong> Authoritarian policies, significant combat strength bonuses for units, increased production toward military units</li>
+        <li><strong>Tier 2 civic:</strong> Elite unit policies — bonus promotions for new units, increased flanking damage</li>
+        <li><strong>Tier 3 civic:</strong> Total war policies — massive combat bonuses when at war, increased pillaging yields, bonus from attacking multiple enemies simultaneously</li>
+        <li>Most aggressive ideology — units are genuinely stronger under Fascism than under any other ideology</li>
+        <li>Pairs best with Militarism civic and Brandenburg Gate for the ultimate military machine</li>
+      </ul>
+      <span class="best-for">BEST FOR: Military Victory · Conquest</span>
+    </div>
+
+    <div class="ideology-card com">
+      <h3>☭ Communism</h3>
+      <ul>
+        <li><strong>Communism civic:</strong> Collectivist policies boosting Specialist output and Science from Specialists — enormous science multiplier</li>
+        <li><strong>Tier 2 civic:</strong> State control policies — reduced Specialist maintenance, increased city production when working high-yield tiles</li>
+        <li><strong>Tier 3 civic:</strong> Defensive doctrine — strong bonuses for units defending inside your own territory. "Turtle and tech" approach</li>
+        <li>Best ideology for Science Victory — Specialist-scaled Science makes the space race dramatically faster</li>
+        <li>Defensive bonuses let you ignore military threats and focus entirely on research</li>
+      </ul>
+      <span class="best-for">BEST FOR: Science Victory · Tall Play</span>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;padding:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(201,162,39,0.18);border-radius:8px;">
+    <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:var(--gold-dark);margin-bottom:12px;letter-spacing:0.1em;">QUICK COMPARISON — IDEOLOGY BY VICTORY PATH</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;font-size:0.8rem;color:var(--parchment-dark);">
+      <div style="font-family:'Cinzel',serif;font-size:0.68rem;color:var(--gold-dark);padding-bottom:6px;border-bottom:1px solid rgba(201,162,39,0.2);">Victory Path</div>
+      <div style="font-family:'Cinzel',serif;font-size:0.68rem;color:var(--dem-glow);padding-bottom:6px;border-bottom:1px solid rgba(68,136,255,0.2);">Democracy</div>
+      <div style="font-family:'Cinzel',serif;font-size:0.68rem;color:var(--fas-glow);padding-bottom:6px;border-bottom:1px solid rgba(255,85,85,0.2);">Fascism</div>
+      <div style="font-family:'Cinzel',serif;font-size:0.68rem;color:var(--com-glow);padding-bottom:6px;border-bottom:1px solid rgba(255,136,68,0.2);">Communism</div>
+      <div>⚔️ Military</div><div style="color:#88aaff;">Good (free units)</div><div style="color:#ff8888;">Best ★★★</div><div style="color:#aaa;">Weakest</div>
+      <div>💰 Economic</div><div style="color:#88aaff;">Best ★★★</div><div style="color:#ff8888;">Poor</div><div style="color:#aaa;">Fair</div>
+      <div>🚀 Science</div><div style="color:#88aaff;">Good</div><div style="color:#ff8888;">Poor</div><div style="color:#aaa;">Best ★★★</div>
+      <div>🎭 Culture</div><div style="color:#88aaff;">Best ★★★</div><div style="color:#ff8888;">Fair</div><div style="color:#aaa;">Good</div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== MILITARY PATH =================== -->
+<div id="tab-path-mil" class="panel mil">
+  <div style="margin-bottom:18px;">
+    <h2 style="font-family:'Cinzel',serif;font-size:1.35rem;color:#ffa0a0;margin-bottom:6px;">⚔️ Military Legacy Path — Modern Age</h2>
+    <p style="color:var(--parchment-dark);font-size:0.9rem;line-height:1.6;">Defeat enemy units and capture cities to accumulate Military Legacy Points. <strong style="color:#ffa0a0;">Goal: Reach the Military Victory threshold — culminating in the Manhattan Project (nuke access) or Operation Ivy Project (instant victory).</strong> WWII-era units (Tanks, Fighters, Bombers) are the most powerful in the game. Air superiority combined with armor creates unstoppable combined-arms armies.</p>
+  </div>
+
+  <div class="milestone-bar mil">
+    <div class="milestone">🏳 Starts: Industrial Era</div>
+    <div class="milestone">⚔️ Conquer cities for points</div>
+    <div class="milestone">✈️ Air units = game-changer</div>
+    <div class="milestone">☢️ Manhattan Project = endgame</div>
+    <div class="milestone">🏆 Operation Ivy = instant win</div>
+  </div>
+
+  <div class="phase mil">
+    <div class="phase-header">Phase 1 — Industrial Rearm <span class="phase-turns">Turns 1–20 of Age</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research (Science)</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Start:</strong> <code>Military Science</code> — your first military building and fortification. Opens the combat tech chain immediately.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><code>Combustion</code> — Landship (early tank) and Dreadnought. These are a massive power spike over Exploration Age units. Get Landships in the field fast.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div><code>Steam Engine</code> → <code>Urbanization</code> → <code>Industrialization</code> — Rail Stations transform military logistics. You can teleport entire armies across your empire instantly.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><code>Social Question</code> → <code>Modernization</code> — clear the early civic gates quickly. Neither is transformative for Military path but they're required gates.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><code>Political Theory</code> — get this as soon as possible to unlock <strong>Fascism</strong>. Fascism's combat bonuses are essential for Military victory.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Begin <strong>Fascism ideology</strong> immediately — the combat strength bonuses activate from Turn 1 of the ideology and apply to all units in the field right away.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Military cities:</strong> Build <strong>military production buildings</strong> (Military Science) immediately. +Production toward land units is essential for the unit churn this path requires.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Build <strong>Rail Stations</strong> (Industrialization) as soon as available — in ALL cities. The ability to instantly redeploy armies changes everything about how you prosecute war.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Produce <strong>Landships</strong> and <strong>Rifle Infantry</strong> (Industrialization) — these are your primary combat units in Phase 1. Stack 4–5 per army plus 1 Howitzer for siege.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Upgrade your Army Commander from the Exploration Age — they carry over with all promotions intact. This veteran Commander is your most valuable asset.</div></div>
+      </div>
+    </div>
+    <div class="tip-box mil">💡 Rail Stations are the single most powerful military logistics tool in the game. Once you have Rail Stations in 3+ cities, you can concentrate your entire army on any front in a single turn. This makes defending your homeland trivially easy while you attack on other fronts.</div>
+  </div>
+
+  <div class="phase mil">
+    <div class="phase-header">Phase 2 — WWII Arsenal & Air Buildup <span class="phase-turns">Turns 20–45 of Age</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div><code>Industrialization</code> — Rifle Infantry (Tier 1 Modern Infantry), Howitzer (Siege), and most importantly Rail Stations. Build Rail Stations everywhere immediately.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div><code>Mass Production</code> — Factories with Factory Resource slots give massive production boosts. More production = more units per turn.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div><code>Flight</code> — Aerodrome, Biplane, WWI Dive Bomber. Air units can support ground combat, bombard cities, and intercept enemy bombers. Even WWI planes are devastating against undefended cities.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div>Complete <strong>Fascism ideology Tier 2</strong> — elite unit policies give new units bonus promotions from the start. Your Tanks and Fighters arrive already promoted.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div><code>Militarism</code> — military production policies. Mastery unlocks <strong>Brandenburg Gate</strong> wonder — build it! Brandenburg Gate grants +Combat Strength to all units and potentially free units.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div><code>Hegemony</code> — dominance policies for large-empire military maintenance and diplomatic pressure to keep peace on flanks while you focus main war.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>All cities:</strong> <strong>Factory</strong> (Mass Production) with a Coal or Oil Factory Resource slotted — each Factory dramatically boosts city production for units.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><strong>Coastal cities:</strong> <strong>Aerodrome</strong> (Flight) — required for air units. Place them near your front lines so bombers can reach enemy cities.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Produce <strong>Tanks</strong> (Armor) as fast as possible — the most powerful land unit in the game. 3–4 Tanks + 2 Rifle Infantry + 1 Fighter makes a near-unstoppable army.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Produce <strong>Fighters</strong> (Aerodynamics) to protect your bombers and intercept enemy air raids on your cities.</div></div>
+      </div>
+    </div>
+    <div class="tip-box mil">💡 Combined arms is everything in the Modern Age. A stack of Tanks alone is vulnerable to AT Guns and Air units. The winning formula: Fighters protect your airspace → Heavy Bombers soften city defenses → Tanks and Infantry move in for capture. Never attack a fortified city without air support first.</div>
+  </div>
+
+  <div class="phase mil">
+    <div class="phase-header">Phase 3 — Global War & Manhattan Project Pursuit <span class="phase-turns">Turns 45–70 of Age</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div><code>Armor</code> — Tank (strongest land unit), AT Gun (counter enemy tanks), Marines (amphibious assault — no movement penalty landing from sea), Mobile Artillery.</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div><code>Mobilization</code> — Aircraft Carrier (air units at sea!), Battleship, Destroyer, Submarine. Carriers let you project air power anywhere in the world without needing a coastal Aerodrome.</div></div>
+        <div class="action-item"><span class="action-icon">9.</span><div><code>Aerodynamics</code> — Fighter (intercept + attack), Heavy Bomber (can carry nuclear warheads), Dive Bomber (anti-unit). Heavy Bombers are required for nuclear delivery.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div>Complete <strong>Fascism ideology Tier 3</strong> — Total War policies. The combat bonus when at war with multiple opponents is enormous if you're fighting on several fronts simultaneously.</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div><code>Nationalism</code> → Mastery — <strong>Taj Mahal</strong> wonder. Keeps empire happiness up during prolonged war (angry cities rebel and produce less).</div></div>
+        <div class="action-item"><span class="action-icon">9.</span><div>Research civ unique civics Tier 3 — France's Grande Armée gives Commanders free promotions and bonus Infantry Combat Strength. America's Wartime Manufacturing gives production bonuses during war.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Best production city:</strong> Begin <strong>Manhattan Project</strong> wonder as soon as Military Legacy path is complete — this is the only way to build nuclear warheads.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Build <strong>Aircraft Carriers</strong> for oceanic power projection — station Fighters and Heavy Bombers on them to strike anywhere in the world.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div><strong>Captured cities:</strong> Build Rail Stations immediately so you can quickly reinforce and redistribute troops from your captured network.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Keep <strong>AT Guns</strong> with every Tank army — the AI will build Tanks too and your AT Guns are the counter.</div></div>
+      </div>
+    </div>
+    <div class="tip-box mil">💡 Once the Manhattan Project is complete you can build Nuclear Warheads in your cities. You don't need to use them — just having them is a deterrent that prevents some AI civs from declaring war. If you want the fastest Military Victory, instead run the <strong>Operation Ivy Project</strong> which ends the game without needing to actually nuke anyone.</div>
+  </div>
+
+  <div class="phase mil">
+    <div class="phase-header">Phase 4 — Final Victory Push <span class="phase-turns">Turns 70–90 of Age</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">10.</span><div><code>Rocketry</code> — not needed for Military Victory specifically, but completing the tech tree gives Wildcard Attribute Points and Age Progress boosts. Complete it if time allows.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">10.</span><div>Complete remaining civics. <code>Future Civic</code> LAST — only after Military victory is secured (Operation Ivy Project complete or enough territory controlled).</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Final Checklist</h4>
+        <div class="action-item"><span class="action-icon">✓</span><div>Is the Military Legacy path complete? (Required for Manhattan Project access)</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Is the Manhattan Project wonder built in your best production city?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Run <strong>Operation Ivy Project</strong> in that city to claim Military Victory instantly.</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Alternatively: deploy Nuclear Warheads via Heavy Bomber or Aircraft Carrier to force enemy surrender.</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Keep military maintained — the AI may rush you when they see you building Manhattan Project.</div></div>
+      </div>
+    </div>
+    <div class="tip-box mil">💡 Other civilizations CAN also build the Manhattan Project if they complete the Military Legacy path. Watch the wonder tracker — if another civ is building it, rush your own Military Legacy completion and start the project before them.</div>
+  </div>
+
+  <div class="reward-box mil">
+    <div class="reward-icon">🏆</div>
+    <div><strong>Military Victory — Modern Age</strong> Complete the Military Legacy Path → Build Manhattan Project → Run Operation Ivy Project OR detonate Nuclear Warheads on enemy cities. Military victory in the Modern Age is the most dramatic conclusion: nuclear fire, steel columns of tanks, and air armadas dominating the skies.</div>
+  </div>
+</div>
+
+<!-- =================== ECONOMIC PATH =================== -->
+<div id="tab-path-eco" class="panel eco">
+  <div style="margin-bottom:18px;">
+    <h2 style="font-family:'Cinzel',serif;font-size:1.35rem;color:#a0ffb8;margin-bottom:6px;">💰 Economic Legacy Path — Modern Age</h2>
+    <p style="color:var(--parchment-dark);font-size:0.9rem;line-height:1.6;">Accumulate Gold and max out your economic infrastructure. <strong style="color:#a0ffb8;">Goal: Reach the Economic Victory threshold — primarily via Factory Resources and massive gold generation from Banks, Guildhalls, and Trade Routes.</strong> Factory Resources (Coal, Oil, Cotton, Rubber) from Distant Lands slot into Factories and multiply production AND gold dramatically.</p>
+  </div>
+
+  <div class="milestone-bar eco">
+    <div class="milestone">🏳 Starts: Industrial Era</div>
+    <div class="milestone">🏭 Factories = core goal</div>
+    <div class="milestone">⚙️ Factory Resources = multipliers</div>
+    <div class="milestone">💰 Gold threshold = victory</div>
+    <div class="milestone">🏆 Reward: Economic dominance</div>
+  </div>
+
+  <div class="phase eco">
+    <div class="phase-header">Phase 1 — Factory Rush <span class="phase-turns">Turns 1–20 of Age</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Start:</strong> <code>Steam Engine</code> → <code>Urbanization</code> → <code>Industrialization</code> → <code>Mass Production</code>. This is the core economic tech chain. Mass Production unlocks Factories — your #1 priority building.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><code>Academics</code> → <code>Electricity</code> in parallel — these science buildings also give yields that compound with your economic buildings. Every yield source helps.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div><code>Radio</code> — Eiffel Tower wonder is excellent for Economic path (Culture bonuses help civic research, advancing more economic civics faster).</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><code>Natural History</code> — Museum building (Great Works slots, adjacency bonuses for culture buildings). Culture path complements Economic by speeding up civic research.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><code>Globalism</code> — trade policies increase trade route yields. More gold per route = faster economic victory accumulation.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div><code>Political Theory</code> → <strong>Democracy ideology</strong>. Democracy's economic policies and the +1 Policy Slot are critical — that extra policy slot lets you run one more economic boost at all times.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Every city:</strong> Build <strong>Factory</strong> (Mass Production) as soon as researched. Factories are the most powerful economic building in the game. Build nothing else until every city has one.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Slot <strong>Factory Resources</strong> (Coal, Oil, Cotton, Rubber, Tobacco from Distant Lands) into each Factory immediately. One Factory Resource fills ALL other resource slots in that city with the same resource.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div><strong>Gold cities:</strong> Ensure all Banks (from Exploration Age) are still operating — they persist and still give +5 Gold/city.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Send all Merchants on active trade routes. Each route generates Gold every turn — idle Merchants are economic waste.</div></div>
+      </div>
+    </div>
+    <div class="tip-box eco">💡 Factory Resources work differently from regular resources: slotting ONE Factory Resource fills ALL other resource slots in that city with the same resource automatically. If a city has 4 resource slots and you slot Cotton in the Factory, all 4 slots become Cotton. Stack this across 8+ cities for enormous yields.</div>
+  </div>
+
+  <div class="phase eco">
+    <div class="phase-header">Phase 2 — Trade Network Maximization <span class="phase-turns">Turns 20–45 of Age</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div><code>Radio</code> — Radio Station building and <strong>Eiffel Tower</strong> wonder. Build Eiffel Tower in your culture-heavy city — the empire-wide Culture bonus speeds your remaining civic research significantly.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div><code>Urbanization</code> Mastery — additional building bonuses. Every yield bonus in an economic-focused run compounds dramatically over the course of the age.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div>Remain flexible on remaining techs — Economic path doesn't need Rocketry or Aerodynamics. Focus on building yield techs over military techs.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div>Complete <strong>Democracy ideology</strong> — all three tiers. Free Press policy (+Culture), Welfare State (+Happiness), New Deal (+economic bonuses across empire). Democracy's Tier 3 civic Their Finest Hour is also useful if you face any military threats.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div><code>Capitalism</code> — economic policies and <strong>Statue of Liberty</strong> wonder (Mastery). Statue of Liberty gives diplomatic and economic bonuses — build it in your gold capital.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div><code>Globalism</code> Mastery — <strong>Palacio de Bellas Artes</strong> wonder. Strong Culture wonder that speeds remaining civic research.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div>Build <strong>Eiffel Tower</strong> (Radio) in your most culture-productive city. The empire-wide culture bonus is enormous — it's essentially adding +2–4 Culture to every city.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Build <strong>Radio Stations</strong> in all major cities — cultural output builds that help you research civics faster, accelerating economic policies.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Build <strong>Statue of Liberty</strong> (Capitalism Mastery) — a top-tier economic wonder with diplomatic bonuses that let you negotiate favorable trade deals.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Civ unique buildings — America's Steel Mill and Railyard both give massive production and economic bonuses. Great Britain's Royal Exchange and Manufactory are also top-tier economic buildings.</div></div>
+      </div>
+    </div>
+    <div class="tip-box eco">💡 The Eiffel Tower (Radio) is one of the best wonders for Economic path players because it gives Culture empire-wide — and more Culture means faster civic research, meaning you get economic policies online sooner, meaning more gold. The indirect value is enormous.</div>
+  </div>
+
+  <div class="phase eco">
+    <div class="phase-header">Phase 3 — Gold Maximization & Victory Threshold <span class="phase-turns">Turns 45–70 of Age</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div>Complete remaining infrastructure techs. <code>Mass Production</code> Mastery gives additional Factory bonuses if not yet done.</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div>Military defense techs as needed — <code>Military Science</code> gives you fortification buildings to protect your wealthy cities from AI raids.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div><code>Nationalism</code> Mastery — <strong>Taj Mahal</strong> wonder. Keeps happiness high across a wealthy empire (large empires generate more happiness pressure).</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div>Complete all remaining civics and their Masteries. Every policy slot you unlock gives you another place to run an economic bonus.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Final Checklist</h4>
+        <div class="action-item"><span class="action-icon">✓</span><div>Every city has a Factory with a Factory Resource slotted?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>All Banks (from Exploration Age) still active in every city?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>All Merchants on active trade routes to every known civilization?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Eiffel Tower, Statue of Liberty, and Palacio de Bellas Artes built?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>All economic policies slotted in government (Democracy + Capitalism policies)?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Track Gold-per-turn — the Economic Victory threshold scales with map size and opponent count.</div></div>
+      </div>
+    </div>
+    <div class="tip-box eco">💡 The Modern Age Economic Victory is about sustained gold output, not a one-time amount. Factories with Factory Resources are the multiplier — a city with Oil slotted into a Factory generates dramatically more gold than the same city without one. Every city needs a Factory before any other Modern Age building.</div>
+  </div>
+
+  <div class="reward-box eco">
+    <div class="reward-icon">🏆</div>
+    <div><strong>Economic Victory — Modern Age</strong> Reach the Gold-per-turn threshold sustained by your industrial economy. The Factory + Factory Resource system is the backbone — Distant Land resources collected in the Exploration Age now pay off enormously as you slot Coal, Oil, Cotton, and Rubber into your industrial empire.</div>
+  </div>
+</div>
+
+<!-- =================== SCIENCE PATH =================== -->
+<div id="tab-path-sci" class="panel sci">
+  <div style="margin-bottom:18px;">
+    <h2 style="font-family:'Cinzel',serif;font-size:1.35rem;color:#a0f0ff;margin-bottom:6px;">🚀 Science Legacy Path — Modern Age</h2>
+    <p style="color:var(--parchment-dark);font-size:0.9rem;line-height:1.6;">Win the Space Race. <strong style="color:#a0f0ff;">Goal: Research Rocketry → Build Launch Pad → Complete Launch Satellite project → Complete Staffed Space Flight project.</strong> Whoever finishes Staffed Space Flight first wins the Scientific Victory. High science output and a beeline to Flight → Rocketry is everything.</p>
+  </div>
+
+  <div class="milestone-bar sci">
+    <div class="milestone">🏳 Starts: Industrial Era</div>
+    <div class="milestone">✈️ Flight → Aerodrome first</div>
+    <div class="milestone">🚀 Rocketry → Launch Pad</div>
+    <div class="milestone">🛰️ Launch Satellite project</div>
+    <div class="milestone">🏆 Staffed Space Flight = WIN</div>
+  </div>
+
+  <div class="phase sci">
+    <div class="phase-header">Phase 1 — Science Infrastructure Blitz <span class="phase-turns">Turns 1–20 of Age</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Start:</strong> <code>Academics</code> → <code>Electricity</code> immediately. Laboratory + Electricity's science building are your two core Modern Age science buildings. Get them in every city as fast as possible.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><code>Steam Engine</code> → <code>Industrialization</code> in parallel — Rail Stations allow instant redeployment of Merchants (sending them anywhere for trade routes in one turn), and Factories boost production of science buildings.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div><code>Mass Production</code> — Factories. Slot Factory Resources for production boosts. More production = faster science building construction = faster science output online.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><code>Political Theory</code> — PRIORITY. Rush this. <strong>Communism ideology</strong> is the best for Science Victory — Specialist-scaled Science is an enormous multiplier with your University + Laboratory + Specialists combination.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Begin <strong>Communism ideology</strong> Tier 1 — reduced Specialist maintenance and Science from Specialists. Your Specialist-heavy cities will generate dramatically more science per turn.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div><code>Natural History</code> — Museum building gives Great Work slots. Great Works generate Culture which speeds remaining civic research for more science policies.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Capital and science cities:</strong> Build <strong>Laboratory</strong> (Academics) immediately. +Science, +additional Science per adjacent resource/wonder. Stack adjacency.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><strong>Electricity science building</strong> in the same cities next. Two science buildings per city is the minimum — three is ideal (carry-over Observatory from Exploration Age counts).</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Assign maximum <strong>Specialists</strong> in all cities. With Communism's Specialist bonuses, each Specialist is worth more science than under any other ideology.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Build <strong>Oxford University</strong> wonder (Academics) in your capital — gives a free technology and ongoing Science bonus. One of the best early Modern Age wonders.</div></div>
+      </div>
+    </div>
+    <div class="tip-box sci">💡 The Codices you collected in Antiquity still give +2 Science each in the Modern Age. If you collected 8 Codices, that's +16 Science/turn before building anything. Combined with Laboratories, Observatories (carry-over), and Specialists under Communism, your science output in Turn 1 of the Modern Age may already be enormous.</div>
+  </div>
+
+  <div class="phase sci">
+    <div class="phase-header">Phase 2 — Beeline to Flight <span class="phase-turns">Turns 20–40 of Age</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div><code>Radio</code> — Eiffel Tower wonder is extremely valuable here. Empire-wide Culture lets you research civics significantly faster → more Communism ideology civics → more science bonuses faster.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div><code>Flight</code> — CRITICAL. Aerodrome building is required to build the Launch Pad (next age goal). Research this as fast as possible. You don't need to build air units for Science path, just the Aerodrome.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div>All other techs are secondary to Flight → Rocketry. Don't get distracted by Armor or Mobilization unless you're under military threat.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div>Complete <strong>Communism ideology Tier 2</strong> — State Control policies. Reduced Specialist maintenance means you can run MORE Specialists in more cities without happiness penalties.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div>Complete <strong>Communism ideology Tier 3</strong> — defensive doctrine. Your units defend better inside your territory, which lets you invest less in military and more in science buildings.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div><code>Globalism</code> — trade route policies. More trade routes = more gold = more ability to purchase science buildings directly instead of spending production turns on them.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Best production city:</strong> Build <strong>Aerodrome</strong> (Flight) immediately once researched. This is the building that enables the Launch Pad. Place it well — you'll run multiple Space Race projects here.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Build <strong>Factory</strong> (Mass Production) in your Launch Pad city — the Factory's production bonus is critical for completing the Space Race projects in time.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Build <strong>Eiffel Tower</strong> (Radio) in your culture city — fastest way to boost culture empire-wide and accelerate all remaining civic research.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Continue filling all cities with <strong>Laboratories</strong> and <strong>Electricity science buildings</strong>. Science compounds — every building you add now pays off over the remaining turns.</div></div>
+      </div>
+    </div>
+    <div class="tip-box sci">💡 You only need ONE city with an Aerodrome and Launch Pad to win the Space Race. Pour ALL production into that one city — Factory + Factory Resource + Aerodrome + Launch Pad + all science buildings. Make it your single strongest city in terms of production AND science simultaneously.</div>
+  </div>
+
+  <div class="phase sci">
+    <div class="phase-header">Phase 3 — Space Race <span class="phase-turns">Turns 40–65 of Age</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div><code>Rocketry</code> — requires completing all previous main techs. This unlocks the Launch Pad building. Research this as fast as your science output allows. Every turn counts — other civs race you here.</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div>Once Rocketry is done: build Launch Pad in your Aerodrome city. Then immediately start the <strong>Launch Satellite</strong> project. Then start <strong>Staffed Space Flight</strong>.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div>Complete all remaining civic Masteries — every mastery that gives a policy bonus, science bonus, or production bonus helps finish the Space Race projects faster.</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div><code>Future Civic</code> LAST — absolutely do not research until Staffed Space Flight is complete. Future Civic advances the age timer.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Space Race Checklist</h4>
+        <div class="action-item"><span class="action-icon">✓</span><div><strong>Aerodrome built</strong> in your Space Race city?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div><strong>Launch Pad built</strong> in same city?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div><strong>Launch Satellite project</strong> started and completing?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div><strong>Staffed Space Flight project</strong> queued immediately after?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Is your Space Race city's production high enough? (Need 100+ Production/turn for reasonable project completion time)</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Military defense in place? AI civs sometimes declare war when they see you building toward victory.</div></div>
+      </div>
+    </div>
+    <div class="tip-box sci">💡 Monitor other civs' tech trees. If an opponent is also close to Rocketry, you may need to resort to espionage — the Steal Technological Advancement action (Writing Mastery from Antiquity) can grab Rocketry directly from them, setting their progress back while you leap ahead.</div>
+  </div>
+
+  <div class="reward-box sci">
+    <div class="reward-icon">🏆</div>
+    <div><strong>Scientific Victory — Modern Age</strong> Complete the <em>Staffed Space Flight</em> project in a city with a Launch Pad. Humanity reaches the stars, and your civilization's scientific legacy is cemented for all history. The first civ to complete this project wins — speed is everything.</div>
+  </div>
+</div>
+
+<!-- =================== CULTURE PATH =================== -->
+<div id="tab-path-cul" class="panel cul">
+  <div style="margin-bottom:18px;">
+    <h2 style="font-family:'Cinzel',serif;font-size:1.35rem;color:#ffce90;margin-bottom:6px;">🎭 Culture Legacy Path — Modern Age</h2>
+    <p style="color:var(--parchment-dark);font-size:0.9rem;line-height:1.6;">Send Explorers to dig up Artifacts and fill Museums. <strong style="color:#ffce90;">Goal: Fill Museums with enough Artifacts to reach the Cultural Victory threshold.</strong> Explorers are produced via the Natural History civic and can excavate Artifact sites found across the world map. Great Works from previous ages also contribute. Museums require Great Works to fill.</p>
+  </div>
+
+  <div class="milestone-bar cul">
+    <div class="milestone">🏳 Starts: Industrial Era</div>
+    <div class="milestone">🦕 Natural History → Explorer ASAP</div>
+    <div class="milestone">🗿 Dig Artifacts from sites</div>
+    <div class="milestone">🏛️ Museums = Great Work slots</div>
+    <div class="milestone">🏆 Fill Museums = Victory</div>
+  </div>
+
+  <div class="phase cul">
+    <div class="phase-header">Phase 1 — Explorer Deployment <span class="phase-turns">Turns 1–15 of Age</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><code>Radio</code> — <strong>Eiffel Tower</strong> is the single best wonder for Culture path. Empire-wide Culture means faster civic research, faster Natural History, faster Explorers. Make this your first tech goal.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><code>Academics</code> — Oxford University wonder + Laboratory. Science output speeds your remaining tech research for culture-relevant wonders.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Remain flexible — Culture path doesn't need many specific techs. Focus on building yield techs and wonder-unlocking techs.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><code>Natural History</code> — TURN 1 ABSOLUTE PRIORITY. This is the ONLY civic that unlocks the Explorer unit and Museums. You cannot progress toward Cultural Victory without it. Research immediately.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><code>Political Theory</code> → <strong>Democracy ideology</strong>. Democracy's Free Press policy and cultural bonuses directly boost culture output. Welfare State keeps cities happy for maximum cultural production.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div><code>Modernization</code> — Hermitage wonder path. Hermitage gives Great Work slots for additional Artifacts. More slots = more cultural victory points.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div><strong>Capital:</strong> Build <strong>Museum</strong> (Natural History) immediately — this is your primary Artifact-holding building. Each Museum has multiple Great Work slots for Artifacts.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div><strong>Produce Explorer units</strong> immediately from every city that can. The AI ALSO produces Explorers rapidly on harder difficulties — you're racing to claim Artifact dig sites.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Send Explorers to every Artifact site (shown as dig icons on the map) immediately. Each successful dig gives an Artifact which fills a Museum slot.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Build <strong>Eiffel Tower</strong> (Radio) in your most culture-productive city. The empire-wide Culture bonus is massive for keeping civic research flowing.</div></div>
+      </div>
+    </div>
+    <div class="tip-box cul">💡 Artifact sites appear across the entire world map including Distant Lands. If you settled cities in Distant Lands during the Exploration Age, those cities can now send local Explorers to nearby dig sites — a huge advantage over civs that didn't explore. Explorers from Exploration Age cities are already positioned.</div>
+  </div>
+
+  <div class="phase cul">
+    <div class="phase-header">Phase 2 — Museum Network & Wonder Chain <span class="phase-turns">Turns 15–40 of Age</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div><code>Mass Production</code> → <code>Industrialization</code> — Factories and Rail Stations. Rail Stations let Explorers move across your entire empire in one turn, reaching distant Artifact sites quickly.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div>Tech masteries for culture buildings — Architecture Mastery from Exploration Age (still giving bonuses), Radio Mastery (culture building bonuses).</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">4.</span><div>Complete <strong>Democracy ideology</strong> fully — all three Tiers. Avant Garde policy (culture), New Deal (economic), Their Finest Hour (cultural resilience). Democracy's civic suite is the best for Culture path.</div></div>
+        <div class="action-item"><span class="action-icon">5.</span><div><code>Nationalism</code> Mastery — <strong>Taj Mahal</strong> wonder. +Culture and +Happiness empire-wide. One of the best culture wonders in the game alongside Eiffel Tower.</div></div>
+        <div class="action-item"><span class="action-icon">6.</span><div><code>Globalism</code> Mastery — <strong>Palacio de Bellas Artes</strong> wonder. Strong culture wonder. Three Major wonders (Eiffel Tower, Taj Mahal, Palacio) is an excellent culture haul.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Cities Build Order</h4>
+        <div class="action-item"><span class="action-icon">1.</span><div>Build <strong>Museum</strong> in every city, not just the capital. More Museums = more Artifact slots = more cultural victory points. Fill each Museum as Explorers bring back Artifacts.</div></div>
+        <div class="action-item"><span class="action-icon">2.</span><div>Build <strong>Taj Mahal</strong> (Nationalism Mastery) in your culture capital — empire-wide Culture and Happiness.</div></div>
+        <div class="action-item"><span class="action-icon">3.</span><div>Build <strong>Palacio de Bellas Artes</strong> (Globalism Mastery) — strong culture wonder, complements Eiffel Tower + Taj Mahal for a powerful culture triple-wonder city.</div></div>
+        <div class="action-item"><span class="action-icon">4.</span><div>Build <strong>Muzibu Azaala Mpanga</strong> (Natural History → Buganda civ) if you're playing Buganda — this wonder gives additional Culture and Happiness in nearby settlements.</div></div>
+      </div>
+    </div>
+    <div class="tip-box cul">💡 Great Works from Wonders and buildings in previous ages carry forward and can fill Museum slots! If you built the Colosseum (Antiquity) or collected Relics (Exploration Age), those Great Works can be manually moved into Museum slots for additional Cultural Legacy points. Don't forget to assign them.</div>
+  </div>
+
+  <div class="phase cul">
+    <div class="phase-header">Phase 3 — Artifact Collection Sprint & Victory <span class="phase-turns">Turns 40–70 of Age</span></div>
+    <div class="phase-body">
+      <div class="action-col">
+        <h4>🔬 Research</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div>Continue flexible tech research. <code>Steam Engine</code> Mastery, <code>Urbanization</code> Mastery for building yield bonuses. More production helps build Museums faster.</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div>Do NOT rush <code>Future Tech</code> — it advances the Age timer by 10. Hold it until all Museums are filled and the Cultural Victory threshold is reached.</div></div>
+      </div>
+      <div class="action-col">
+        <h4>📜 Civics</h4>
+        <div class="action-item"><span class="action-icon">7.</span><div>Complete all remaining civic Masteries. Every mastery that unlocks a cultural policy or wonder is worth researching.</div></div>
+        <div class="action-item"><span class="action-icon">8.</span><div>Research civ unique civics final tier — France's Code Civil des Français gives Culture per policy slot (synergizes with Democracy's many policies).</div></div>
+      </div>
+      <div class="action-col">
+        <h4>🏙️ Final Cultural Victory Checklist</h4>
+        <div class="action-item"><span class="action-icon">✓</span><div>Are ALL Museums built in all cities?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Are ALL Museum slots filled with Artifacts or Great Works?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Eiffel Tower, Taj Mahal, Palacio de Bellas Artes all built?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>All Explorers actively digging — no idle Explorers!</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Great Works from Exploration Age (Relics, Wonder Great Works) assigned to Museum slots?</div></div>
+        <div class="action-item"><span class="action-icon">✓</span><div>Cultural Victory threshold reached? Check the Legacy Path screen.</div></div>
+      </div>
+    </div>
+    <div class="tip-box cul">💡 The AI is aggressive about digging Artifact sites on harder difficulties. If you see an AI Explorer heading toward a site, intercept it with your own Explorer (Explorers can contest dig sites). You can also use military units to block AI Explorers from reaching key sites — Artifact competition is fierce late-game.</div>
+  </div>
+
+  <div class="reward-box cul">
+    <div class="reward-icon">🏆</div>
+    <div><strong>Cultural Victory — Modern Age</strong> Fill enough Museum slots with Artifacts and Great Works to reach the Cultural Legacy threshold. Your civilization's history, preserved and celebrated across the world, endures as the greatest cultural legacy in human history. The Explorers you sent around the world brought humanity's past back home.</div>
+  </div>
+</div>
+
+<!-- Tooltip -->
+<div id="tooltip" class="tooltip">
+  <h3 id="tt-name"></h3>
+  <p id="tt-desc"></p>
+  <div class="tt-row">
+    <div id="tt-unlocks" class="tt-badge" style="background:rgba(74,158,218,0.15);border:1px solid rgba(74,158,218,0.4);color:#c8e8ff;"></div>
+    <div id="tt-path"    class="tt-badge" style="background:rgba(201,162,39,0.1);border:1px solid rgba(201,162,39,0.3);color:var(--gold-light);"></div>
+  </div>
+</div>
+
+<script>
+function showTab(name, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+function showTip(e, name, desc, unlocks, path) {
+  const tt = document.getElementById('tooltip');
+  document.getElementById('tt-name').textContent = name;
+  document.getElementById('tt-desc').textContent = desc;
+  document.getElementById('tt-unlocks').textContent = '🔓 ' + unlocks;
+  document.getElementById('tt-path').textContent = '🏆 ' + path;
+  tt.classList.add('show');
+  moveTip(e);
+}
+
+function hideTip() { document.getElementById('tooltip').classList.remove('show'); }
+
+document.addEventListener('mousemove', function(e) {
+  if (document.getElementById('tooltip').classList.contains('show')) moveTip(e);
+});
+
+function moveTip(e) {
+  const tt = document.getElementById('tooltip');
+  let x = e.clientX + 16, y = e.clientY + 16;
+  if (x + 300 > window.innerWidth) x = e.clientX - 300;
+  if (y + 170 > window.innerHeight) y = e.clientY - 170;
+  tt.style.left = x + 'px';
+  tt.style.top  = y + 'px';
+}
+</script>
+</body>
+</html>
